@@ -1,0 +1,79 @@
+.game {
+  text-align: center;
+  background-color: none;
+}
+
+.game-instructions {
+  font-style: italic;
+  font-size: 1.0em;
+  width: 300px;
+  height: 50px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  /* CSS3 */
+  white-space: -moz-pre-wrap;
+  /* Firefox */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* IE */
+}
+
+.game-header {
+  background-color: #222;
+  height: 50px;
+  padding: 10px;
+  color: white;
+}
+
+.game-title {
+  font-size: 1.5em;
+}
+
+.game-status {
+  padding: 20px;
+  white-space: pre;
+}
+
+.game-button {
+  font-size: 1.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  border-radius: 5px;
+}
+
+.tile-container {
+  display: grid;
+  grid-gap: 0px;
+}
+
+.tile {
+  outline: 1px solid white;
+  outline-offset: -1px;
+
+  overflow: hidden;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.tile-wrapper {
+  position: relative;
+  margin: auto;
+}
+
+.full-image {
+  overflow: hidden;
+  margin: auto;
+  padding: 20px;
+}
+
+.full-image .img {
+  max-width: initial;
+}
+
+.highscoretable {
+    margin: 0;
+    width: 100%;
+}
