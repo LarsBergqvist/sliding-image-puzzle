@@ -1,7 +1,7 @@
 import React from 'react';
 import './Game.css';
 
-function TileView(props) {
+const TileView = (props) => {
     let bgPos = 'left ' + props.left + 'px top ' + props.top + 'px';
     const imPath = `${window.location.href}/images/img${props.imageNumber}.jpg`;
     let style = {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { PuzzleWidth } from './constants';
+import { PuzzleWidth } from '../constants';
 
-function FullImage(props) {
+const FullImage = (props) => {
     const imPath = `${window.location.href}/images/img${props.imageNumber}.jpg`;
     const tileWidth = PuzzleWidth / props.size;
     const fullImageWidth = props.size * tileWidth;

@@ -1,6 +1,6 @@
 import React from "react";
 
-function LeaderBoardView(props) {
+const LeaderBoardView = (props) => {
     let pos = 1;
     let rows = props.highScoreList.results.map(r => {
         let res = <tr key={pos}><td>#{pos}</td><td>{r.userName}</td><td>{r.score}</td></tr>;
@@ -24,7 +24,6 @@ function LeaderBoardView(props) {
             </table>
         </div>
     </>;
-
 }
 
 export default LeaderBoardView;
