@@ -1,7 +1,11 @@
 
 import React from "react";
+import { connect } from 'react-redux'
+import { initGame, moveTile, nameChanged } from './actions';
+import { fetchHighScoreList, updateHighScoreList } from './reducers';
+import LeaderBoardView from './LeaderBoardView';
 
-class GameStatusView extends React.Component {
+class GameStatus extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,10 +18,13 @@ class GameStatusView extends React.Component {
     }
 
     render() {
+        // todo:                     <div><h2>{this.props.gameName}</h2></div>
+        // todo: check complete
+        // todo: turn -1 = moves
+
         if (this.props.highScorePosition) {
             if (!this.props.highScoreListSaved) {
                 return <>
-                    <div><h2>{this.props.gameName}</h2></div>
                     <div>
                         YOU MADE IT TO #{this.props.highScorePosition} on the leaderboard!
                     </div>
@@ -29,29 +36,10 @@ class GameStatusView extends React.Component {
                     <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.username)}>Submit</button>
                 </>;
             } else {
-                let pos = 1;
-                let rows = this.props.highScoreList.results.map(r => {
-                    let res = <tr key={pos}><td>#{pos}</td><td>{r.userName}</td><td>{r.score}</td></tr>;
-                    pos++;
-                    return res;
-                });
                 return <>
-                    <div><h2>{this.props.gameName}</h2></div>
-                    <div>
-                        <h3>{this.props.highScoreList.name}</h3>
-                        <table className="highscoretable">
-                            <thead>
-                                <tr>
-                                    <th>Position</th>
-                                    <th>Name</th>
-                                    <th>{this.props.highScoreList.unit}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {rows}
-                            </tbody>
-                        </table>
-                    </div>
+                    <LeaderBoardView
+                        highScoreList={this.props.highScoreList}
+                    />
                 </>;
             }
         } else if (this.props.gameComplete) {
@@ -61,7 +49,6 @@ class GameStatusView extends React.Component {
             </>;
         } else {
             return <>
-                <div><h2>{this.props.gameName}</h2></div>
                 <div>
                     Moves: <b>{this.props.turnNo - 1}</b>
                     <div className='game-instructions'>
@@ -74,5 +61,31 @@ class GameStatusView extends React.Component {
         }
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        turnNo: state.turnNo,
+        gameComplete: state.gameComplete,
+        highScorePosition: state.highScorePosition,
+        highScoreListSaved: state.highScoreListSaved,
+        highScoreList: state.highScoreList,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSubmitNameToHighScore: () => {
+            dispatch(updateHighScoreList);
+        },
+        onNameChanged: (name) => {
+            dispatch(nameChanged(name));
+        }
+    }
+}
+
+const GameStatusView = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GameStatus)
 
 export default GameStatusView;
