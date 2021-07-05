@@ -15,9 +15,7 @@ const Game = (props) => {
                 <div className='game-title'>Sliding Image Puzzle</div>
             </header>
             <div><h2>{props.gameName}</h2></div>
-            <div className='game-status'>
-                <GameStatusView />
-            </div>
+            <GameStatusView />
             <PuzzleView />
             <button className='game-button' onClick={() => props.onInitGame(0)}>Restart 3x3</button>
             <button className='game-button' onClick={() => props.onInitGame(1)}>Restart 4x4</button>

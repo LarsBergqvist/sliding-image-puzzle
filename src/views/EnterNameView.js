@@ -21,12 +21,14 @@ class EnterName extends React.Component {
             <div>
                 YOU MADE IT TO #{this.props.highScorePosition} on the leaderboard!
             </div>
-            <p>Enter your name:</p>
+            Enter your name:
             <input
                 type='text'
                 onChange={this.myChangeHandler}
             />
-            <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.username)}>Submit</button>
+            <div>
+                <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.username)}>Submit</button>
+            </div>
         </>;
     }
 }

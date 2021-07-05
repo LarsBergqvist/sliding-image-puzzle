@@ -16,7 +16,7 @@ const store = createStore(tileGame, composeEnhancers(
     applyMiddleware(thunk)
 ));
 
-store.dispatch(initGame(0, Math.floor(Math.random() * NumImages) + 1, false));
+store.dispatch(initGame(0, Math.floor(Math.random() * NumImages) + 1, true));
 store.dispatch(fetchHighScoreList);
 ReactDOM.render(
     <Provider store={store}>

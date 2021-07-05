@@ -5,40 +5,34 @@ import LeaderBoardView from './LeaderBoardView';
 import EnterNameView from './EnterNameView';
 
 const GameStatus = (props) => {
-    // todo: turn -1 = moves
-
-    if (props.highScorePosition) {
-        if (!props.highScoreListSaved && props.gameComplete) {
-            return <EnterNameView />
-        } else {
-            return <>
+    if (props.gameComplete) {
+        return <div className='game-status'>
+            <div><b>GAME COMPLETE!</b></div>
+            <div>You used {props.moves} moves</div>
+            {props.highScorePosition && !props.highScoreListSaved &&
+                <EnterNameView />
+            }
+            {props.highScorePosition && props.highScoreListSaved &&
                 <LeaderBoardView
                     highScoreList={props.highScoreList}
                 />
-            </>;
-        }
-    } else if (props.gameComplete) {
-        return <>
-            <div><b>GAME COMPLETE!</b></div>
-            <div>You used {props.turnNo - 1} moves</div>
-        </>;
+            }
+        </div>;
     } else {
-        return <>
-            <div>
-                Moves: <b>{props.turnNo - 1}</b>
-                <div className='game-instructions'>
-                    <div>
-                        Click on the tile that should be moved
-                    </div>
+        return <div className='game-status'>
+            Moves: <b>{props.moves}</b>
+            <div className='game-instructions'>
+                <div>
+                    Click on the tile that should be moved
                 </div>
             </div>
-        </>;
+        </div>
     }
 }
 
 const mapStateToProps = state => {
     return {
-        turnNo: state.turnNo,
+        moves: state.moves,
         gameComplete: state.gameComplete,
         highScorePosition: state.highScorePosition,
         highScoreListSaved: state.highScoreListSaved,
