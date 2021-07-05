@@ -17,7 +17,7 @@ import {
 import { gameConfigs } from './game-configs';
 
 const initialState = {
-    turnNo: 1,
+    moves: 0,
     gameComplete: false,
     imageNumber: 1,
     tiles: [],
@@ -65,7 +65,7 @@ function tileGame(state = initialState, action) {
                     const resultsCopy = state.highScoreList.results.map(r => r);
                     resultsCopy.push({
                         userName: 'TEMP',
-                        score: (state.turnNo - 1)
+                        score: state.moves
                     });
                     resultsCopy.sort((a, b) => a.score > b.score);
 
@@ -75,14 +75,14 @@ function tileGame(state = initialState, action) {
                         return Object.assign({}, state, {
                             highScorePosition: idxInHighScoreList + 1,
                             gameComplete: gameComplete,
-                            turnNo: state.turnNo + 1,
+                            moves: state.moves + 1,
                             tiles: setWithSwappedTiles
                         });
                     } else {
                         return Object.assign({}, state, {
                             highScorePosition: idxInHighScoreList + 1,
                             gameComplete: gameComplete,
-                            turnNo: state.turnNo + 1,
+                            moves: state.moves + 1,
                             tiles: setWithSwappedTiles
                         });
                     }
@@ -91,7 +91,7 @@ function tileGame(state = initialState, action) {
                 //----
                 return Object.assign({}, state, {
                     gameComplete,
-                    turnNo: state.turnNo + 1,
+                    moves: state.moves + 1,
                     tiles: setWithSwappedTiles
                 });
 
@@ -155,7 +155,7 @@ export async function updateHighScoreList(dispatch, getState) {
 
     let body = {
         userName: state.userName,
-        score: state.turnNo - 1
+        score: state.moves
     };
 
     fetch(url, {
