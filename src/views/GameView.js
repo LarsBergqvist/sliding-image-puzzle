@@ -3,7 +3,7 @@ import './Game.css';
 import { connect } from 'react-redux'
 import { initGame } from '../reducers/actions';
 import GameStatusView from './GameStatusView';
-import { GameId_3x3, GameId_4x4, NumImages } from '../constants';
+import { GameId_3x3, GameId_4x4, GameId_5x5, NumImages } from '../constants';
 import { fetchHighScoreList } from '../reducers/highscore-list-reducers';
 import PuzzleView from './PuzzleView';
 import FullImageView from './FullImageView';
@@ -19,7 +19,7 @@ const Game = (props) => {
             <PuzzleView />
             <button className='game-button' onClick={() => props.onInitGame(GameId_3x3)}>Restart 3x3</button>
             <button className='game-button' onClick={() => props.onInitGame(GameId_4x4)}>Restart 4x4</button>
-            <button className='game-button' onClick={() => props.onInitGame(GameId_4x4)}>Restart 5x5</button>
+            <button className='game-button' onClick={() => props.onInitGame(GameId_5x5)}>Restart 5x5</button>
             <FullImageView />
         </div>
     );
