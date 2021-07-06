@@ -15,6 +15,7 @@ import {
     hasEmptyTileOnSides
 } from './tileSetFunctions';
 import { gameConfigs } from './game-configs';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     moves: 0,
@@ -27,6 +28,7 @@ const initialState = {
     highScoreList: undefined,
     highScorePosition: undefined,
     userName: undefined,
+    userId: undefined,
     highScoreListSaved: false
 };
 
@@ -62,20 +64,22 @@ function tileGame(state = initialState, action) {
 
                 let gameComplete = allTilesAreAligned(setWithSwappedTiles);
                 if (gameComplete && state.highScoreList) {
+                    let newUserId = uuidv4();
                     const resultsCopy = state.highScoreList.results.map(r => r);
                     resultsCopy.push({
-                        userName: 'TEMP',
+                        id: newUserId,
                         score: state.moves
                     });
                     resultsCopy.sort((a, b) => a.score > b.score);
 
-                    let idxInHighScoreList = resultsCopy.findIndex(r => r.userName === 'TEMP');
+                    let idxInHighScoreList = resultsCopy.findIndex(r => r.id === newUserId);
                     if (idxInHighScoreList > -1 && (idxInHighScoreList + 1 <= state.highScoreList.maxSize)) {
                         // HighScoreList exists and user made it into chart
                         return Object.assign({}, state, {
                             highScorePosition: idxInHighScoreList + 1,
                             gameComplete: gameComplete,
                             moves: state.moves + 1,
+                            userId: newUserId,
                             tiles: setWithSwappedTiles
                         });
                     } else {
@@ -155,7 +159,8 @@ export async function updateHighScoreList(dispatch, getState) {
 
     let body = {
         userName: state.userName,
-        score: state.moves
+        score: state.moves,
+        id: state.userId
     };
 
     fetch(url, {

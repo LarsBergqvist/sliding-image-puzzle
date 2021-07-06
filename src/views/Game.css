@@ -76,4 +76,9 @@
 .highscoretable {
     margin: 0;
     width: 100%;
+    border-collapse: collapse;
+}
+
+.user-row-in-highscore {
+    border: 5px solid lightgreen;
 }

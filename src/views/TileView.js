@@ -9,6 +9,14 @@ const TileView = (props) => {
         backgroundImage: "url(" + imPath + ")",
     }
 
+    if (props.id === (props.pos + 1)) {
+        style = {
+            ...style,
+            outline: '1px solid white',
+            outlineOffset: '-10px',
+        }
+    }
+
     if (props.id === 0) {
         // this is the blank tile
         style = {};

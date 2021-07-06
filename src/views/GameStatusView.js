@@ -15,6 +15,7 @@ const GameStatus = (props) => {
             {props.highScorePosition && props.highScoreListSaved &&
                 <LeaderBoardView
                     highScoreList={props.highScoreList}
+                    userId={props.userId}
                 />
             }
         </div>;
@@ -37,6 +38,7 @@ const mapStateToProps = state => {
         highScorePosition: state.highScorePosition,
         highScoreListSaved: state.highScoreListSaved,
         highScoreList: state.highScoreList,
+        userId: state.userId
     }
 }
 

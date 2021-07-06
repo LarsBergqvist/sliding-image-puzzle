@@ -8,11 +8,11 @@ class EnterName extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { username: '' };
+        this.state = { userName: '' };
     }
 
     myChangeHandler = (event) => {
-        this.setState({ username: event.target.value });
+        this.setState({ userName: event.target.value });
         this.props.onNameChanged(event.target.value);
     }
 
@@ -27,7 +27,7 @@ class EnterName extends React.Component {
                 onChange={this.myChangeHandler}
             />
             <div>
-                <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.username)}>Submit</button>
+                <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.userName)}>Submit</button>
             </div>
         </>;
     }
