@@ -1,7 +1,7 @@
 import shuffle from 'shuffle-array';
 import {
     PuzzleWidth
-} from './constants';
+} from '../constants';
 import {
     isSolvable
 } from './solvableChecker';

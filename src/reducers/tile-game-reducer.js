@@ -7,14 +7,14 @@ import {
 } from './actions';
 import {
     DefaultSize
-} from './constants';
+} from '../constants';
 import {
     generateTileSet,
     swapTilesInSet,
     allTilesAreAligned,
     hasEmptyTileOnSides
-} from './tileSetFunctions';
-import { gameConfigs } from './game-configs';
+} from './tileset-functions';
+import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
@@ -70,7 +70,7 @@ function tileGame(state = initialState, action) {
                         id: newUserId,
                         score: state.moves
                     });
-                    resultsCopy.sort((a, b) => a.score > b.score);
+                    resultsCopy.sort((a, b) => (a.score - b.score) || (a.utcDateTime - b.utcDateTime));
 
                     let idxInHighScoreList = resultsCopy.findIndex(r => r.id === newUserId);
                     if (idxInHighScoreList > -1 && (idxInHighScoreList + 1 <= state.highScoreList.maxSize)) {
@@ -122,83 +122,6 @@ function tileGame(state = initialState, action) {
         default:
             return state;
     }
-}
-
-export async function fetchHighScoreList(dispatch, getState) {
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}`;
-
-    fetch(url, {
-        headers: {
-            ApiKey: `${process.env.REACT_APP_APIKEY}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                console.error('Network request failed');
-                throw Error('Network request failed');
-            }
-            return response;
-        })
-        .then(d => d.json())
-        .then(d => {
-            dispatch({
-                type: HIGHSCORE_LIST_LOADED,
-                highScoreList: d
-            });
-        }, () => { })
-}
-
-export async function updateHighScoreList(dispatch, getState) {
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}/game-results`;
-
-    var state = getState();
-
-    if (!state.userName || state.userName.length === 0) {
-        return;
-    }
-
-    let body = {
-        userName: state.userName,
-        score: state.moves,
-        id: state.userId
-    };
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            ApiKey: `${process.env.REACT_APP_APIKEY}`
-        },
-        body: JSON.stringify(body),
-    })
-        .then(response => {
-            if (!response.ok) {
-                console.error('Network request failed');
-                throw Error('Network request failed');
-            }
-            return response;
-        })
-        .then(() => {
-            let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}`;
-            fetch(url, {
-                headers: {
-                    ApiKey: `${process.env.REACT_APP_APIKEY}`
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        console.error('Network request failed');
-                        throw Error('Network request failed');
-                    }
-                    return response;
-                })
-                .then(d => d.json())
-                .then(d => {
-                    dispatch({
-                        type: HIGHSCORE_LIST_SAVED, highScoreList: d
-                    });
-                })
-        });
 }
 
 export default tileGame;

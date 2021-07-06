@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import tileGame, { fetchHighScoreList } from './reducers'
-import { initGame } from './actions';
+import tileGame from './reducers/tile-game-reducer';
+import { fetchHighScoreList } from './reducers/highscore-list-reducers'
+import { initGame } from './reducers/actions';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'

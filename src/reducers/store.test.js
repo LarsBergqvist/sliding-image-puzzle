@@ -1,5 +1,5 @@
 import { createStore } from 'redux'
-import tileGame from './reducers'
+import tileGame from './tile-game-reducer'
 import { initGame, moveTile } from './actions';
 
 //

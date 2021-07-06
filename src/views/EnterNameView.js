@@ -1,8 +1,8 @@
 
 import React from "react";
 import { connect } from 'react-redux'
-import { nameChanged } from '../actions';
-import { updateHighScoreList } from '../reducers';
+import { nameChanged } from '../reducers/actions';
+import { updateHighScoreList } from '../reducers/highscore-list-reducers';
 
 class EnterName extends React.Component {
 

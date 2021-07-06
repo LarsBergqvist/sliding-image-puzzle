@@ -1,10 +1,10 @@
 import React from 'react';
 import './Game.css';
 import { connect } from 'react-redux'
-import { initGame } from '../actions';
+import { initGame } from '../reducers/actions';
 import GameStatusView from './GameStatusView';
 import { NumImages } from '../constants';
-import { fetchHighScoreList } from '../reducers';
+import { fetchHighScoreList } from '../reducers/highscore-list-reducers';
 import PuzzleView from './PuzzleView';
 import FullImageView from './FullImageView';
 
