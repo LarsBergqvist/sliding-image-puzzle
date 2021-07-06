@@ -22,8 +22,6 @@ const FullImage = (props) => {
 const mapStateToProps = state => {
     return {
         imageNumber: state.imageNumber,
-        tiles: state.tiles,
-        gameName: state.gameName
     }
 }
 

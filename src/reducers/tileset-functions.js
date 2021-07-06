@@ -1,88 +1,71 @@
 import shuffle from 'shuffle-array';
 import {
-    PuzzleWidth
-} from '../constants';
-import {
     isSolvable
 } from './solvableChecker';
 
 export function generateTileSet(size, doShuffling) {
-    const tileWidth = PuzzleWidth / size;
     let newTilesArray = [];
     for (let i = 0; i < size * size; i++) {
-        let newTile = {
-            id: i + 1,
-            top: -(Math.floor(i / size)) * tileWidth,
-            left: i < size ? -i * tileWidth : -(i % size) * tileWidth,
-            pos: i
-        };
-        newTilesArray.push(newTile);
+        newTilesArray[i] = i + 1;
     }
     const blankTileIdx = size * size - 1;
-    newTilesArray[blankTileIdx].id = 0;
+    newTilesArray[blankTileIdx] = 0;
 
     if (doShuffling) {
         let solvable = false;
         while (!solvable) {
-            newTilesArray = shuffleTileSet(size, newTilesArray);
-            solvable = isSolvable(size, newTilesArray.map(t => t.id));
+            newTilesArray = shuffle(newTilesArray);
+            solvable = isSolvable(size, [...newTilesArray]);
         }
     }
     return newTilesArray;
 }
 
-function shuffleTileSet(size, tiles) {
-    const newTiles = shuffle(tiles);
-    for (let i = 0; i < size * size; i++) {
-        let tile = newTiles[i];
-        tile.pos = i;
-    }
-
-    return newTiles;
-}
-
-export function swapTilesInSet(tiles, id1, id2) {
-    let source = Object.assign({}, tiles.find(t => t.id === id1));
-    let dest = Object.assign({}, tiles.find(t => t.id === id2));
-    let sourcePos = source.pos;
-    source.pos = dest.pos;
-    tiles[source.pos] = source;
-    dest.pos = sourcePos;
-    tiles[dest.pos] = dest;
+export function swapTilesInSet(tiles, sourceId, destId) {
+    let sourceIdx = tiles.findIndex(t => t === sourceId);
+    let source = tiles[sourceIdx];
+    let destIdx = tiles.findIndex(t => t === destId);
+    let dest = tiles[destIdx];
+    tiles[destIdx] = source;
+    tiles[sourceIdx] = dest;
     return tiles;
 }
 
 export function allTilesAreAligned(tiles) {
-    return (tiles.findIndex(t => (t.id !== (t.pos + 1)) && t.id !== 0) === -1);
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i] !== 0 && (tiles[i] !== (i + 1))) {
+            return false;
+        }
+    }
+    return true;
 }
 
 export function hasEmptyTileOnSides(size, id, tiles) {
-    const tile = tiles.find(t => t.id === id);
-    const pos = tile.pos;
-    const row = Math.floor(pos / size);
+    const idx = tiles.findIndex(t => t === id);
+    const row = Math.floor(idx / size);
     if (row < (size - 1)) {
         // Check below
-        if (tiles[pos + size].id === 0) {
+        if (tiles[idx + size] === 0) {
             return true;
         }
     }
     if (row > 0) {
         // Check above
-        if (tiles[pos - size].id === 0) {
+        if (tiles[idx - size] === 0) {
             return true;
         }
     }
-    const col = pos % size;
+    const col = idx % size;
 
     if (col < (size - 1)) {
         // check to the right
-        if (tiles[pos + 1].id === 0) {
+        if (tiles[idx + 1] === 0) {
             return true;
         }
     }
     if (col > 0) {
         // check to the left
-        if (tiles[pos - 1].id === 0) {
+        if (tiles[idx - 1] === 0) {
             return true;
         }
     }

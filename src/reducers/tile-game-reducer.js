@@ -6,9 +6,6 @@ import {
     HIGHSCORE_LIST_SAVED
 } from './actions';
 import {
-    DefaultSize
-} from '../constants';
-import {
     generateTileSet,
     swapTilesInSet,
     allTilesAreAligned,
@@ -22,7 +19,7 @@ const initialState = {
     gameComplete: false,
     imageNumber: 1,
     tiles: [],
-    size: DefaultSize,
+    size: undefined,
     gameId: undefined,
     gameName: undefined,
     highScoreList: undefined,
@@ -34,7 +31,8 @@ const initialState = {
 
 
 // The reducer for the game
-// state is an object with game state and an array of tiles
+// The state is an object with game state and an array of tiles
+// A tile is a number 1-N
 function tileGame(state = initialState, action) {
     switch (action.type) {
         case INIT_GAME:

@@ -9,7 +9,7 @@ import { initGame } from './reducers/actions';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { NumImages } from './constants';
+import { GameId_3x3, NumImages } from './constants';
 
 // For integration with Redux DevTools in browser
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -17,7 +17,7 @@ const store = createStore(tileGame, composeEnhancers(
     applyMiddleware(thunk)
 ));
 
-store.dispatch(initGame(0, Math.floor(Math.random() * NumImages) + 1, true));
+store.dispatch(initGame(GameId_3x3, Math.floor(Math.random() * NumImages) + 1, true));
 store.dispatch(fetchHighScoreList);
 ReactDOM.render(
     <Provider store={store}>

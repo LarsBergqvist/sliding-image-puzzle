@@ -14,11 +14,14 @@ const Puzzle = (props) => {
         gridTemplateColumns: "repeat(" + props.size + ", " + tileWidth + "px)"
     }
 
-    const blocks = props.tiles.sort((a, b) => a.pos > b.pos).map(c =>
-        <TileView key={c.id}
-            id={c.id} pos={c.pos} left={c.left} top={c.top}
+    const blocks = props.tiles.map((c, idx) =>
+        <TileView key={idx}
+            id={c}
+            correctPos={c === (idx + 1)}
             imageNumber={props.imageNumber}
             onClick={props.onTileClicked}
+            tileWidth={tileWidth}
+            size={props.size}
         />
     );
 
