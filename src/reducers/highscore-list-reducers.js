@@ -56,7 +56,7 @@ async function get(url) {
         if (!response.ok) {
             throw Error('Network request failed');
         }
-        return response.json();
+        return await response.json();
     } catch (e) {
         throw Error('Network request failed');
     }
