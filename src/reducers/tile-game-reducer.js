@@ -9,7 +9,8 @@ import {
     generateTileSet,
     swapTilesInSet,
     allTilesAreAligned,
-    hasEmptyTileOnSides
+    hasEmptyTileOnSides,
+    getIndexInHighScoreList
 } from './tileset-functions';
 import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,7 +24,7 @@ const initialState = {
     gameId: undefined,
     gameName: undefined,
     highScoreList: undefined,
-    highScorePosition: undefined,
+    highScorePosition: -1,
     userName: undefined,
     userId: undefined,
     highScoreListSaved: false
@@ -55,53 +56,48 @@ function tileGame(state = initialState, action) {
                 return state;
             }
 
-            if (hasEmptyTileOnSides(state.size, action.id, state.tiles)) {
-                const newTiles = state.tiles.map(t => t);
-                const setWithSwappedTiles = swapTilesInSet(newTiles, 0, action.id);
-
-                //----
-
-                let gameComplete = allTilesAreAligned(setWithSwappedTiles);
-                if (gameComplete && state.highScoreList) {
-                    let newUserId = uuidv4();
-                    const resultsCopy = state.highScoreList.results.map(r => r);
-                    resultsCopy.push({
-                        id: newUserId,
-                        score: state.moves
-                    });
-                    resultsCopy.sort((a, b) => (a.score - b.score) || (a.utcDateTime - b.utcDateTime));
-
-                    let idxInHighScoreList = resultsCopy.findIndex(r => r.id === newUserId);
-                    if (idxInHighScoreList > -1 && (idxInHighScoreList + 1 <= state.highScoreList.maxSize)) {
-                        // HighScoreList exists and user made it into chart
-                        return Object.assign({}, state, {
-                            highScorePosition: idxInHighScoreList + 1,
-                            gameComplete: gameComplete,
-                            moves: state.moves + 1,
-                            userId: newUserId,
-                            tiles: setWithSwappedTiles
-                        });
-                    } else {
-                        return Object.assign({}, state, {
-                            highScorePosition: idxInHighScoreList + 1,
-                            gameComplete: gameComplete,
-                            moves: state.moves + 1,
-                            tiles: setWithSwappedTiles
-                        });
-                    }
-                }
-
-                //----
-                return Object.assign({}, state, {
-                    gameComplete,
-                    moves: state.moves + 1,
-                    tiles: setWithSwappedTiles
-                });
-
-            } else {
+            if (!hasEmptyTileOnSides(state.size, action.id, state.tiles)) {
                 return state;
             }
 
+            //
+            // Move the tile
+            //
+            const newTiles = state.tiles.map(t => t);
+            const setWithSwappedTiles = swapTilesInSet(newTiles, 0, action.id);
+
+            //
+            // Check result
+            //
+            let gameComplete = allTilesAreAligned(setWithSwappedTiles);
+            if (gameComplete && state.highScoreList) {
+                const newUserId = uuidv4();
+                const time = Date.now();
+                const idxInHighScoreList = getIndexInHighScoreList(newUserId, time, state.moves + 1, state.highScoreList);
+                if (idxInHighScoreList > -1) {
+                    // User made it into the leaderboard
+                    return Object.assign({}, state, {
+                        highScorePosition: idxInHighScoreList + 1,
+                        gameComplete: gameComplete,
+                        moves: state.moves + 1,
+                        userId: newUserId,
+                        tiles: setWithSwappedTiles
+                    });
+                } else {
+                    // User dit not make it into the leaderboard
+                    return Object.assign({}, state, {
+                        highScorePosition: idxInHighScoreList + 1,
+                        gameComplete: gameComplete,
+                        moves: state.moves + 1,
+                        tiles: setWithSwappedTiles
+                    });
+                }
+            }
+            return Object.assign({}, state, {
+                gameComplete,
+                moves: state.moves + 1,
+                tiles: setWithSwappedTiles
+            });
         }
 
         case HIGHSCORE_LIST_LOADED: {

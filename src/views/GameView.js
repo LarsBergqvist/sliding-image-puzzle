@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { initGame } from '../reducers/actions';
 import GameStatusView from './GameStatusView';
 import { GameId_3x3, GameId_4x4, GameId_5x5, NumImages } from '../constants';
-import { fetchHighScoreList } from '../reducers/highscore-list-reducers';
+import { fetchHighScoreList } from '../reducers/thunks';
 import PuzzleView from './PuzzleView';
 import FullImageView from './FullImageView';
 import PropTypes from 'prop-types';

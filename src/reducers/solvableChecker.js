@@ -11,7 +11,6 @@ export function isSolvable(size, idArray) {
     // The other items in the array are filled with distinct values
     // 1...size*size-1
     //
-
     let invCount = getInvCount(size, idArray);
 
     if (size & 1) {

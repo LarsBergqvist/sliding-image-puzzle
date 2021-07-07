@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import tileGame from './tile-game-reducer';
-import { initGame, moveTile, MOVE_TILE } from './actions';
+import { initGame, moveTile } from './actions';
 import { GameId_3x3 } from '../constants';
 
 //
@@ -16,19 +16,6 @@ test('InitGame should create correct state', () => {
     expect(state.imageNumber).toBe(1);
     expect(state.gameComplete).toBeFalsy();
 });
-
-test('Moving last tile should complete the game', () => {
-    const tiles = [1, 2, 3,
-        4, 5, 6,
-        7, 0, 8];
-    const state = {
-        tiles,
-        size: 3
-    };
-    let newState = tileGame(state, { type: MOVE_TILE, id: 8 });
-    expect(newState.gameComplete).toBeTruthy();
-});
-
 
 test('There should be one blank tile', () => {
     const size = 3;

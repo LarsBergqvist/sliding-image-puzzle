@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { nameChanged } from '../reducers/actions';
-import { updateHighScoreList } from '../reducers/highscore-list-reducers';
+import { updateHighScoreList } from '../reducers/thunks';
 import PropTypes from 'prop-types';
 
 class EnterName extends React.Component {

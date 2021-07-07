@@ -10,10 +10,10 @@ const GameStatus = (props) => {
         return <div className='game-status'>
             <div><b>GAME COMPLETE!</b></div>
             <div>You used {props.moves} moves</div>
-            {props.highScorePosition && !props.highScoreListSaved &&
+            {(props.highScorePosition > 0) && !props.highScoreListSaved &&
                 <EnterNameView />
             }
-            {props.highScorePosition && props.highScoreListSaved &&
+            {(props.highScorePosition > 0) && props.highScoreListSaved &&
                 <LeaderBoardView
                     highScoreList={props.highScoreList}
                     userId={props.userId}
