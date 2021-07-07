@@ -11,7 +11,7 @@ class EnterName extends React.Component {
         this.state = { userName: '' };
     }
 
-    myChangeHandler = (event) => {
+    myChangeHandler(event) {
         this.setState({ userName: event.target.value });
         this.props.onNameChanged(event.target.value);
     }

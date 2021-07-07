@@ -1,5 +1,5 @@
-import { createStore } from 'redux'
-import tileGame from './tile-game-reducer'
+import { createStore } from 'redux';
+import tileGame from './tile-game-reducer';
 import { initGame, moveTile } from './actions';
 import { GameId_3x3 } from '../constants';
 
@@ -8,7 +8,7 @@ import { GameId_3x3 } from '../constants';
 //
 
 test('InitGame should create correct state', () => {
-    const store = createStore(tileGame);
+    const store = createStore(tileGame)
     const size = 3;
     store.dispatch(initGame(GameId_3x3, 1, false));
     const state = store.getState();

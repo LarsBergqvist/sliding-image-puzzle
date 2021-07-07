@@ -35,7 +35,7 @@ const initialState = {
 // A tile is a number 1-N
 function tileGame(state = initialState, action) {
     switch (action.type) {
-        case INIT_GAME:
+        case INIT_GAME: {
             return Object.assign({}, initialState, {
                 gameId: action.gameId,
                 size: gameConfigs[action.gameId].size,
@@ -44,8 +44,9 @@ function tileGame(state = initialState, action) {
                 highScoreListId: gameConfigs[action.gameId].highscorelistid,
                 tiles: generateTileSet(gameConfigs[action.gameId].size, action.doShuffling)
             });
+        }
 
-        case MOVE_TILE:
+        case MOVE_TILE: {
             if (action.id === 0) {
                 // selected blank tile
                 return state;
@@ -100,6 +101,8 @@ function tileGame(state = initialState, action) {
             } else {
                 return state;
             }
+
+        }
 
         case HIGHSCORE_LIST_LOADED: {
             return Object.assign({}, state, {
