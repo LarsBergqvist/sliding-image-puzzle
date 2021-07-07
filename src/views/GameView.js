@@ -7,6 +7,7 @@ import { GameId_3x3, GameId_4x4, GameId_5x5, NumImages } from '../constants';
 import { fetchHighScoreList } from '../reducers/highscore-list-reducers';
 import PuzzleView from './PuzzleView';
 import FullImageView from './FullImageView';
+import PropTypes from 'prop-types';
 
 const Game = (props) => {
     return (
@@ -24,6 +25,12 @@ const Game = (props) => {
         </div>
     );
 };
+
+Game.propTypes = {
+    gameName: PropTypes.string,
+    onInitGame: PropTypes.func
+};
+
 
 const mapStateToProps = state => {
     return {

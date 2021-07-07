@@ -1,8 +1,9 @@
 
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux'
 import LeaderBoardView from './LeaderBoardView';
 import EnterNameView from './EnterNameView';
+import PropTypes from 'prop-types';
 
 const GameStatus = (props) => {
     if (props.gameComplete) {
@@ -30,6 +31,15 @@ const GameStatus = (props) => {
         </div>
     }
 }
+
+GameStatus.propTypes = {
+    moves: PropTypes.number,
+    gameComplete: PropTypes.bool,
+    highScorePosition: PropTypes.number,
+    highScoreListSaved: PropTypes.bool,
+    highScoreList: PropTypes.object,
+    userId: PropTypes.string
+};
 
 const mapStateToProps = state => {
     return {

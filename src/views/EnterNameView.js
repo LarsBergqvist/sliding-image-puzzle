@@ -1,19 +1,15 @@
 
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux'
 import { nameChanged } from '../reducers/actions';
 import { updateHighScoreList } from '../reducers/highscore-list-reducers';
+import PropTypes from 'prop-types';
 
 class EnterName extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { userName: '' };
-    }
-
-    myChangeHandler(event) {
-        this.setState({ userName: event.target.value });
-        this.props.onNameChanged(event.target.value);
     }
 
     render() {
@@ -24,7 +20,7 @@ class EnterName extends React.Component {
             Enter your name:
             <input
                 type='text'
-                onChange={this.myChangeHandler}
+                onChange={(event) => { this.setState({ userName: event.target.value }); this.props.onNameChanged(event.target.value); }}
             />
             <div>
                 <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.userName)}>Submit</button>
@@ -33,12 +29,19 @@ class EnterName extends React.Component {
     }
 }
 
+EnterName.propTypes = {
+    highScorePosition: PropTypes.number,
+    onNameChanged: PropTypes.func,
+    onSubmitNameToHighScore: PropTypes.func
+};
+
 const mapStateToProps = state => {
     return {
         highScorePosition: state.highScorePosition,
         highScoreList: state.highScoreList,
-    }
-}
+    };
+};
+
 
 const mapDispatchToProps = dispatch => {
     return {

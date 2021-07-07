@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const LeaderBoardView = (props) => {
     let pos = 1;
@@ -29,5 +30,12 @@ const LeaderBoardView = (props) => {
         </div>
     </>;
 }
+
+LeaderBoardView.propTypes = {
+    highScoreList: PropTypes.object,
+    name: PropTypes.string,
+    unit: PropTypes.string,
+    userId: PropTypes.string
+};
 
 export default LeaderBoardView;
