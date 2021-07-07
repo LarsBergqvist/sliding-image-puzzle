@@ -3,15 +3,16 @@ import { connect } from 'react-redux'
 import { PuzzleWidth } from '../constants';
 import TileView from './TileView'
 import { moveTile } from '../reducers/actions';
+import PropTypes from 'prop-types';
 
 const Puzzle = (props) => {
     const tileWidth = PuzzleWidth / props.size;
     const fullImageWidth = props.size * tileWidth;
     let tileWrapperStyle = {
-        width: fullImageWidth + "px"
+        width: fullImageWidth + 'px'
     }
     let tileContainerStyle = {
-        gridTemplateColumns: "repeat(" + props.size + ", " + tileWidth + "px)"
+        gridTemplateColumns: 'repeat(' + props.size + ', ' + tileWidth + 'px)'
     }
 
     const blocks = props.tiles.map((c, idx) =>
@@ -35,6 +36,13 @@ const Puzzle = (props) => {
         </div>
     );
 }
+
+Puzzle.propTypes = {
+    onTileClicked: PropTypes.func,
+    size: PropTypes.number,
+    tiles: PropTypes.array,
+    imageNumber: PropTypes.number
+};
 
 const mapStateToProps = state => {
     return {

@@ -1,5 +1,6 @@
 import React from 'react';
 import './Game.css';
+import PropTypes from 'prop-types';
 
 const TileView = (props) => {
     let style = getStyleForTile(props);
@@ -12,6 +13,11 @@ const TileView = (props) => {
         </div>
     );
 }
+
+TileView.propTypes = {
+    onClick: PropTypes.func,
+    id: PropTypes.number
+};
 
 const getStyleForTile = props => {
     //
@@ -26,7 +32,7 @@ const getStyleForTile = props => {
     const imPath = `${window.location.href}/images/img${props.imageNumber}.jpg`;
     let style = {
         backgroundPosition: bgPos,
-        backgroundImage: "url(" + imPath + ")",
+        backgroundImage: 'url(' + imPath + ')',
     }
 
     if (props.correctPos) {

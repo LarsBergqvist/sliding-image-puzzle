@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import tileGame from './reducers/tile-game-reducer';
-import { fetchHighScoreList } from './reducers/highscore-list-reducers'
+import { fetchHighScoreList } from './reducers/thunks'
 import { initGame } from './reducers/actions';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'

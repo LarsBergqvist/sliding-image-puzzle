@@ -4,6 +4,9 @@ import {
 } from './actions';
 
 export async function fetchHighScoreList(dispatch, getState) {
+    if (process.env.REACT_APP_APIURL.length === 0) {
+        return;
+    }
     let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}`;
     try {
         let result = await get(url);
@@ -17,6 +20,10 @@ export async function fetchHighScoreList(dispatch, getState) {
 }
 
 export async function updateHighScoreList(dispatch, getState) {
+    if (process.env.REACT_APP_APIURL.length === 0) {
+        return;
+    }
+
     let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}/game-results`;
 
     var state = getState();
