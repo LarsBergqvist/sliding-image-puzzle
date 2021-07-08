@@ -33,7 +33,7 @@ const initialState = {
 
 // The reducer for the game
 // The state is an object with game state and an array of tiles
-// A tile is a number 1-N
+// A tile is a number 1-N and the blank tile is represented by 0
 function tileGame(state = initialState, action) {
     switch (action.type) {
         case INIT_GAME: {

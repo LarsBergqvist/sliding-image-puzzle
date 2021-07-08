@@ -2,7 +2,7 @@ import tileGame from './tile-game-reducer';
 import { INIT_GAME, MOVE_TILE } from './actions';
 import deepFreeze from 'deep-freeze';
 
-test('InitGame should should work on immutable data', () => {
+test('InitGame should not mutate data', () => {
     const initialState = {
         moves: 0,
         gameComplete: false,

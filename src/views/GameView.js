@@ -27,16 +27,15 @@ const Game = (props) => {
 
 Game.propTypes = {
     gameName: PropTypes.string,
-    onInitGame: PropTypes.func,
-    highScoreList: PropTypes.object
+    highScoreList: PropTypes.object,
+    onInitGame: PropTypes.func
 };
 
 
 const mapStateToProps = state => {
     return {
-        highScoreList: state.highScoreList,
-        imageNumber: state.imageNumber,
-        gameName: state.gameName
+        gameName: state.gameName,
+        highScoreList: state.highScoreList
     }
 }
 
