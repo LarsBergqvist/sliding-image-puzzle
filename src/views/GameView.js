@@ -3,40 +3,39 @@ import './Game.css';
 import { connect } from 'react-redux'
 import { initGame } from '../reducers/actions';
 import GameStatusView from './GameStatusView';
-import { GameId_3x3, GameId_4x4, GameId_5x5, NumImages } from '../constants';
+import { NumImages } from '../constants';
 import { fetchHighScoreList } from '../reducers/thunks';
 import PuzzleView from './PuzzleView';
 import FullImageView from './FullImageView';
 import PropTypes from 'prop-types';
+import LeaderBoardView from './LeaderBoardView';
+import GameHeaderView from './GameHeaderView';
+import RestartButtonsView from './RestartButtonsView';
 
 const Game = (props) => {
     return (
         <div className='game'>
-            <header className='game-header'>
-                <div className='game-title'>Sliding Image Puzzle</div>
-            </header>
-            <div><h2>{props.gameName}</h2></div>
+            <GameHeaderView gameName={props.gameName} />
             <GameStatusView />
             <PuzzleView />
-            <button className='game-button' onClick={() => props.onInitGame(GameId_3x3)}>Restart 3x3</button>
-            <button className='game-button' onClick={() => props.onInitGame(GameId_4x4)}>Restart 4x4</button>
-            <button className='game-button' onClick={() => props.onInitGame(GameId_5x5)}>Restart 5x5</button>
+            <RestartButtonsView onInitGame={props.onInitGame} />
             <FullImageView />
+            <LeaderBoardView highScoreList={props.highScoreList} />
         </div>
     );
 };
 
 Game.propTypes = {
     gameName: PropTypes.string,
+    highScoreList: PropTypes.object,
     onInitGame: PropTypes.func
 };
 
 
 const mapStateToProps = state => {
     return {
-        imageNumber: state.imageNumber,
-        tiles: state.tiles,
-        gameName: state.gameName
+        gameName: state.gameName,
+        highScoreList: state.highScoreList
     }
 }
 

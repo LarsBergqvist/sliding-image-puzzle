@@ -3,6 +3,16 @@ import {
     isSolvable
 } from './solvableChecker';
 
+//
+// The TileSet is an array of length size*size representing
+// a size*size matrix with unique values [0...(size*size -1)]
+// A tile value/id represents a slice of an image
+// When array[i] === i+1, the tile is correctly positioned in the matrix
+// The value 0 represents a blank tile
+// In the unshuffled TileSet, the blank tile is positioned in the lower
+// right corner
+//
+
 export function generateTileSet(size, doShuffling) {
     let newTilesArray = [];
     for (let i = 0; i < size * size; i++) {

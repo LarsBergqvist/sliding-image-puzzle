@@ -7,30 +7,28 @@ import PropTypes from 'prop-types';
 
 const Puzzle = (props) => {
     const tileWidth = PuzzleWidth / props.size;
-    const fullImageWidth = props.size * tileWidth;
-    let tileWrapperStyle = {
-        width: fullImageWidth + 'px'
+    const tileWrapperStyle = {
+        width: `${props.size * tileWidth}px`
     }
-    let tileContainerStyle = {
-        gridTemplateColumns: 'repeat(' + props.size + ', ' + tileWidth + 'px)'
+    const tileContainerStyle = {
+        gridTemplateColumns: `repeat(${props.size},${tileWidth}px)`
     }
-
-    const blocks = props.tiles.map((c, idx) =>
-        <TileView key={idx}
-            id={c}
-            correctPos={c === (idx + 1)}
-            imageNumber={props.imageNumber}
-            onClick={props.onTileClicked}
-            tileWidth={tileWidth}
-            size={props.size}
-        />
-    );
 
     return (
         <div>
             <div className='tile-wrapper' style={tileWrapperStyle}>
                 <div className='tile-container' style={tileContainerStyle}>
-                    {blocks}
+                    {
+                        props.tiles.map((t, idx) =>
+                            <TileView key={idx}
+                                id={t}
+                                correctPos={t === (idx + 1)}
+                                imageNumber={props.imageNumber}
+                                onClick={props.onTileClicked}
+                                tileWidth={tileWidth}
+                                size={props.size}
+                            />)
+                    }
                 </div>
             </div>
         </div>

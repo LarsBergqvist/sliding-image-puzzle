@@ -1,32 +1,34 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import { nameChanged } from '../reducers/actions';
 import { updateHighScoreList } from '../reducers/thunks';
 import PropTypes from 'prop-types';
 
-class EnterName extends React.Component {
+const EnterName = props => {
 
-    constructor(props) {
-        super(props);
-        this.state = { userName: '' };
-    }
+    const [userName, setUserName] = useState('');
 
-    render() {
-        return <>
-            <div>
-                YOU MADE IT TO #{this.props.highScorePosition} on the leaderboard!
-            </div>
-            Enter your name:
-            <input
-                type='text'
-                onChange={(event) => { this.setState({ userName: event.target.value }); this.props.onNameChanged(event.target.value); }}
-            />
-            <div>
-                <button className='game-button' onClick={() => this.props.onSubmitNameToHighScore(this.state.userName)}>Submit</button>
-            </div>
-        </>;
-    }
+    return <>
+        <div>
+            YOU MADE IT TO #{props.highScorePosition} on the leaderboard!
+        </div>
+        Enter your name:
+        <input
+            type='text'
+            minLength='3' maxLength='25'
+            required
+            onChange={(event) => {
+                setUserName(event.target.value);
+                props.onNameChanged(event.target.value);
+            }}
+        />
+        <div>
+            {userName.length >= 3 && userName.length <= 25 &&
+                <button className='game-button' onClick={() => props.onSubmitNameToHighScore(userName)}>Submit</button>
+            }
+        </div>
+    </>;
 }
 
 EnterName.propTypes = {

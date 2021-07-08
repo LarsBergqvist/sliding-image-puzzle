@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const LeaderBoardView = (props) => {
-    let pos = 1;
-    let rows = props.highScoreList.results.map(r => {
+    if (!props.highScoreList) return <></>;
+    const rows = props.highScoreList.results.map((r, idx) => {
         let className = '';
-        if (r.id === props.userId) {
+        if (props.userId && r.id === props.userId) {
             className = 'user-row-in-highscore';
         }
-        let res = <tr className={className} key={pos}><td>#{pos}</td><td>{r.userName}</td><td>{r.score}</td></tr>;
-        pos++;
-        return res;
+        return <tr className={className} key={idx + 1}>
+            <td>#{idx + 1}</td
+            ><td>{r.userName}</td>
+            <td className='date-column'>{(new Date(r.utcDateTime)).toLocaleDateString()}</td>
+            <td>{r.score}</td></tr>;
     });
     return <>
         <div>
@@ -20,6 +22,7 @@ const LeaderBoardView = (props) => {
                     <tr>
                         <th>Position</th>
                         <th>Name</th>
+                        <th className='date-column'>Date</th>
                         <th>{props.highScoreList.unit}</th>
                     </tr>
                 </thead>
