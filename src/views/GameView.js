@@ -36,7 +36,6 @@ const mapStateToProps = state => {
     return {
         highScoreList: state.highScoreList,
         imageNumber: state.imageNumber,
-        tiles: state.tiles,
         gameName: state.gameName
     }
 }

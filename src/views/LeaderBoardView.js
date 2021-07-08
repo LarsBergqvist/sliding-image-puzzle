@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 
 const LeaderBoardView = (props) => {
     if (!props.highScoreList) return <></>;
-    let pos = 1;
-    let rows = props.highScoreList.results.map(r => {
+    const rows = props.highScoreList.results.map((r, idx) => {
         let className = '';
         if (props.userId && r.id === props.userId) {
             className = 'user-row-in-highscore';
         }
-        let res = <tr className={className} key={pos}>
-            <td>#{pos}</td
+        return <tr className={className} key={idx + 1}>
+            <td>#{idx + 1}</td
             ><td>{r.userName}</td>
             <td>{(new Date(r.utcDateTime)).toLocaleDateString()}</td>
             <td>{r.score}</td></tr>;
-        pos++;
-        return res;
     });
     return <>
         <div>
