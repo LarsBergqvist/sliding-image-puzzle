@@ -11,6 +11,8 @@
 ```
 <p>Try it out live here: https://larsbergqvist.github.io/sliding-image-puzzle/  
 <p>This is a simple sliding puzzle game implemented in React with Redux as state container  
+<p>Optionally, the application can use the high score Api in this repository to read and write high scores: https://github.com/LarsBergqvist/highscore-service  
+(The high score Api is implemented in C#/.NET 5 and uses MongoDB for storing data)
     
 ![Alt text](https://github.com/LarsBergqvist/sliding-image-puzzle/blob/main/sliding-image-puzzle.gif?raw=true 'Sliding Image puzzle')
 
