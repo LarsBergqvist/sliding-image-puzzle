@@ -11,7 +11,7 @@ const LeaderBoardView = (props) => {
         return <tr className={className} key={idx + 1}>
             <td>#{idx + 1}</td
             ><td>{r.userName}</td>
-            <td>{(new Date(r.utcDateTime)).toLocaleDateString()}</td>
+            <td className='date-column'>{(new Date(r.utcDateTime)).toLocaleDateString()}</td>
             <td>{r.score}</td></tr>;
     });
     return <>
@@ -22,7 +22,7 @@ const LeaderBoardView = (props) => {
                     <tr>
                         <th>Position</th>
                         <th>Name</th>
-                        <th>Date</th>
+                        <th className='date-column'>Date</th>
                         <th>{props.highScoreList.unit}</th>
                     </tr>
                 </thead>

@@ -83,3 +83,9 @@
 .user-row-in-highscore {
     border: 5px solid lightgreen;
 }
+
+@media only screen and (max-width: 400px) {
+    .date-column {
+      display: none;
+    }
+}
