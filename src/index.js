@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import tileGame from './reducers/tile-game-reducer';
 import { fetchHighScoreList } from './reducers/thunks'
@@ -10,6 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { GameId_3x3, NumImages } from './constants';
+import GameView from './views/GameView';
 
 // For integration with Redux DevTools in browser
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,7 +21,7 @@ store.dispatch(initGame(GameId_3x3, Math.floor(Math.random() * NumImages) + 1, t
 store.dispatch(fetchHighScoreList);
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <GameView />
     </Provider>
     , document.getElementById('root'));
 

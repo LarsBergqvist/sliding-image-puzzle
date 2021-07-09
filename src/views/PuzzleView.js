@@ -15,21 +15,19 @@ const Puzzle = (props) => {
     }
 
     return (
-        <div>
-            <div className='tile-wrapper' style={tileWrapperStyle}>
-                <div className='tile-container' style={tileContainerStyle}>
-                    {
-                        props.tiles.map((t, idx) =>
-                            <TileView key={idx}
-                                id={t}
-                                correctPos={t === (idx + 1)}
-                                imageNumber={props.imageNumber}
-                                onClick={props.onTileClicked}
-                                tileWidth={tileWidth}
-                                size={props.size}
-                            />)
-                    }
-                </div>
+        <div className='tile-wrapper' style={tileWrapperStyle}>
+            <div className='tile-container' style={tileContainerStyle}>
+                {
+                    props.tiles.map((t, idx) =>
+                        <TileView key={idx}
+                            id={t}
+                            isCorrectPos={t === (idx + 1)}
+                            imageNumber={props.imageNumber}
+                            onClick={props.onTileClicked}
+                            tileWidth={tileWidth}
+                            size={props.size}
+                        />)
+                }
             </div>
         </div>
     );
