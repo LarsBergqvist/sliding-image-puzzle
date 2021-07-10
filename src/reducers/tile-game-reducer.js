@@ -55,6 +55,9 @@ function tileGame(state = initialState, action) {
             if (state.gameComplete) {
                 return state;
             }
+            if (action.id < 0 || action.id > (state.size * state.size - 1)) {
+                return state;
+            }
 
             if (!hasEmptyTileOnSides(state.size, action.id, state.tiles)) {
                 return state;

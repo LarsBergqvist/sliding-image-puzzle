@@ -33,6 +33,21 @@ test('There should be one blank tile', () => {
     expect(numBlanks).toBe(1);
 });
 
+test('Selecting tile with id outside bounds should not affect state', () => {
+    const size = 3;
+    const N = size * size;
+    const store = createStore(tileGame);
+    store.dispatch(initGame(GameId_3x3, 1, false));
+
+    const startState = store.getState();
+
+    store.dispatch(moveTile(-1));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+
+    store.dispatch(moveTile(N));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+});
+
 test('Move tile right and left', () => {
     const store = createStore(tileGame);
     store.dispatch(initGame(GameId_3x3, 1, false));
