@@ -23,4 +23,3 @@ export function nameChanged(name) {
 export function highScoreListSaved(highScoreList) {
     return { type: HIGHSCORE_LIST_SAVED, highScoreList };
 }
-
