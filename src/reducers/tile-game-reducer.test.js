@@ -1,6 +1,7 @@
 import tileGame from './tile-game-reducer';
 import { INIT_GAME, MOVE_TILE } from './actions';
 import deepFreeze from 'deep-freeze';
+import { GameId_3x3 } from '../constants';
 
 test('InitGame should not mutate data', () => {
     const initialState = {
@@ -17,7 +18,7 @@ test('InitGame should not mutate data', () => {
         userId: undefined,
         highScoreListSaved: false
     };
-    const action = { type: INIT_GAME, gameId: 0, imageNumber: 1, doShuffling: true };
+    const action = { type: INIT_GAME, gameId: GameId_3x3, imageNumber: 1, doShuffling: true };
     deepFreeze([initialState, action]);
     let newState = tileGame(initialState, action);
     expect(newState.size).toBe(3);

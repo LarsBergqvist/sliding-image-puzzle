@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
         highScorePosition: state.highScorePosition,
         highScoreListSaved: state.highScoreListSaved,
         highScoreList: state.highScoreList,
-        userId: state.userId,
+        userId: state.userId
     };
 };
 
