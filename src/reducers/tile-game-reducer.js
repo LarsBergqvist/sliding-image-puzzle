@@ -3,7 +3,8 @@ import {
     MOVE_TILE,
     HIGHSCORE_LIST_LOADED,
     NAME_CHANGED,
-    HIGHSCORE_LIST_SAVED
+    HIGHSCORE_LIST_SAVED,
+    NAME_SUBMITTED
 } from './actions';
 import {
     generateTileSet,
@@ -27,7 +28,8 @@ const initialState = {
     highScorePosition: -1,
     userName: undefined,
     userId: undefined,
-    highScoreListSaved: false
+    highScoreListSaved: false,
+    nameSubmitted: false
 };
 
 
@@ -43,7 +45,8 @@ function tileGame(state = initialState, action) {
                 gameName: gameConfigs[action.gameId].name,
                 imageNumber: action.imageNumber,
                 highScoreListId: gameConfigs[action.gameId].highscorelistid,
-                tiles: generateTileSet(gameConfigs[action.gameId].size, action.doShuffling)
+                tiles: generateTileSet(gameConfigs[action.gameId].size, action.doShuffling),
+                nameSubmitted: false
             });
         }
 
@@ -118,6 +121,11 @@ function tileGame(state = initialState, action) {
                 highScoreListSaved: true,
                 highScoreList: action.highScoreList
             });
+        }
+        case NAME_SUBMITTED: {
+            return Object.assign({}, state,
+                { nameSubmitted: true }
+            );
         }
         default:
             return state;

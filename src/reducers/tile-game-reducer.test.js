@@ -1,5 +1,5 @@
 import tileGame from './tile-game-reducer';
-import { INIT_GAME, MOVE_TILE } from './actions';
+import { INIT_GAME, MOVE_TILE, NAME_SUBMITTED } from './actions';
 import deepFreeze from 'deep-freeze';
 import { GameId_3x3 } from '../constants';
 
@@ -16,7 +16,8 @@ test('InitGame should not mutate data', () => {
         highScorePosition: undefined,
         userName: undefined,
         userId: undefined,
-        highScoreListSaved: false
+        highScoreListSaved: false,
+        nameSubmitted: false
     };
     const action = { type: INIT_GAME, gameId: GameId_3x3, imageNumber: 1, doShuffling: true };
     deepFreeze([initialState, action]);
@@ -101,4 +102,16 @@ test('Test that move sequence is immutable', () => {
 
     expect(newState4.moves).toBe(4);
     expect(newState4.gameComplete).toBeTruthy();
+});
+
+test('Submitting name should be saved in state', () => {
+    const inputState1 = {
+        nameSubmitted: false
+    };
+
+    const action1 = { type: NAME_SUBMITTED };
+    deepFreeze([inputState1, action1]);
+    const newState1 = tileGame(inputState1, action1);
+    expect(newState1.nameSubmitted).toBeTruthy();
+
 });

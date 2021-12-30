@@ -22,10 +22,14 @@ const EnterName = props => {
                 setUserName(event.target.value);
                 props.onNameChanged(event.target.value);
             }}
+            disabled={props.nameSubmitted}
         />
         <div>
             {userName.length >= 3 && userName.length <= 25 &&
-                <button className='game-button' onClick={() => props.onSubmitNameToHighScore(userName)}>Submit</button>
+                <button className='game-button' onClick={() => props.onSubmitNameToHighScore(userName)}
+                    disabled={props.nameSubmitted}>
+                    Submit
+                </button>
             }
         </div>
     </>;
@@ -34,13 +38,15 @@ const EnterName = props => {
 EnterName.propTypes = {
     highScorePosition: PropTypes.number,
     onNameChanged: PropTypes.func,
-    onSubmitNameToHighScore: PropTypes.func
+    onSubmitNameToHighScore: PropTypes.func,
+    nameSubmitted: PropTypes.bool
 };
 
 const mapStateToProps = state => {
     return {
         highScorePosition: state.highScorePosition,
         highScoreList: state.highScoreList,
+        nameSubmitted: state.nameSubmitted
     };
 };
 
