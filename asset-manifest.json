@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sliding-image-puzzle/static/css/main.c88876a5.chunk.css",
-    "main.js": "/sliding-image-puzzle/static/js/main.6d081df1.chunk.js",
-    "main.js.map": "/sliding-image-puzzle/static/js/main.6d081df1.chunk.js.map",
+    "main.js": "/sliding-image-puzzle/static/js/main.abdcafe2.chunk.js",
+    "main.js.map": "/sliding-image-puzzle/static/js/main.abdcafe2.chunk.js.map",
     "runtime-main.js": "/sliding-image-puzzle/static/js/runtime-main.64c8303b.js",
     "runtime-main.js.map": "/sliding-image-puzzle/static/js/runtime-main.64c8303b.js.map",
     "static/js/2.ceb5a2ba.chunk.js": "/sliding-image-puzzle/static/js/2.ceb5a2ba.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.64c8303b.js",
     "static/js/2.ceb5a2ba.chunk.js",
     "static/css/main.c88876a5.chunk.css",
-    "static/js/main.6d081df1.chunk.js"
+    "static/js/main.abdcafe2.chunk.js"
   ]
 }
