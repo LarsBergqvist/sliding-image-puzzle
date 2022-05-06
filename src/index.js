@@ -4,20 +4,19 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import tileGame from './reducers/tile-game-reducer';
 import { fetchHighScoreList } from './reducers/thunks'
-import { initGame } from './reducers/actions';
+import { INIT_GAME } from './reducers/tile-game-reducer';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
 import { GameId_3x3, NumImages } from './constants';
 import GameView from './views/GameView';
+import { configureStore } from '@reduxjs/toolkit'
 
-// For integration with Redux DevTools in browser
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(tileGame, composeEnhancers(
-    applyMiddleware(thunk)
-));
+const store = configureStore({
+    reducer: {
+        tileGame
+    }
+});
 
-store.dispatch(initGame(GameId_3x3, Math.floor(Math.random() * NumImages) + 1, true));
+store.dispatch(INIT_GAME({ gameId: GameId_3x3, imageNumber: Math.floor(Math.random() * NumImages) + 1, doShuffling: true }));
 store.dispatch(fetchHighScoreList);
 
 const container = document.getElementById('root');

@@ -26,7 +26,7 @@ FullImage.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        imageNumber: state.imageNumber,
+        imageNumber: state.tileGame.imageNumber,
     }
 }
 

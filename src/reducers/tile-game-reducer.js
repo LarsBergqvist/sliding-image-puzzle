@@ -1,12 +1,4 @@
 import {
-    INIT_GAME,
-    MOVE_TILE,
-    HIGHSCORE_LIST_LOADED,
-    NAME_CHANGED,
-    HIGHSCORE_LIST_SAVED,
-    NAME_SUBMITTED
-} from './actions';
-import {
     generateTileSet,
     swapTilesInSet,
     allTilesAreAligned,
@@ -15,6 +7,7 @@ import {
 } from './tileset-functions';
 import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     moves: 0,
@@ -32,37 +25,40 @@ const initialState = {
     nameSubmitted: false
 };
 
+const gameSlice = createSlice({
+    name: 'tileGame',
+    // The state is an object with game state and an array of tiles
+    // A tile is a number 1-N and the blank tile is represented by 0
+    initialState: initialState,
 
-// The reducer for the game
-// The state is an object with game state and an array of tiles
-// A tile is a number 1-N and the blank tile is represented by 0
-function tileGame(state = initialState, action) {
-    switch (action.type) {
-        case INIT_GAME: {
+    reducers: {
+        INIT_GAME(_, action) {
+            const payload = action.payload;
             return Object.assign({}, initialState, {
-                gameId: action.gameId,
-                size: gameConfigs[action.gameId].size,
-                gameName: gameConfigs[action.gameId].name,
-                imageNumber: action.imageNumber,
-                highScoreListId: gameConfigs[action.gameId].highscorelistid,
-                tiles: generateTileSet(gameConfigs[action.gameId].size, action.doShuffling),
+                gameId: payload.gameId,
+                size: gameConfigs[payload.gameId].size,
+                gameName: gameConfigs[payload.gameId].name,
+                imageNumber: payload.imageNumber,
+                highScoreListId: gameConfigs[payload.gameId].highscorelistid,
+                tiles: generateTileSet(gameConfigs[payload.gameId].size, payload.doShuffling),
                 nameSubmitted: false
             });
-        }
+        },
 
-        case MOVE_TILE: {
-            if (action.id === 0) {
+        MOVE_TILE(state, action) {
+            const id = action.payload.id;
+            if (id === 0) {
                 // selected blank tile
                 return state;
             }
             if (state.gameComplete) {
                 return state;
             }
-            if (action.id < 0 || action.id > (state.size * state.size - 1)) {
+            if (id < 0 || id > (state.size * state.size - 1)) {
                 return state;
             }
 
-            if (!hasEmptyTileOnSides(state.size, action.id, state.tiles)) {
+            if (!hasEmptyTileOnSides(state.size, id, state.tiles)) {
                 return state;
             }
 
@@ -70,7 +66,7 @@ function tileGame(state = initialState, action) {
             // Move the tile
             //
             const newTiles = state.tiles.map(t => t);
-            const setWithSwappedTiles = swapTilesInSet(newTiles, 0, action.id);
+            const setWithSwappedTiles = swapTilesInSet(newTiles, 0, id);
 
             //
             // Check result
@@ -104,32 +100,35 @@ function tileGame(state = initialState, action) {
                 moves: state.moves + 1,
                 tiles: setWithSwappedTiles
             });
-        }
+        },
 
-        case HIGHSCORE_LIST_LOADED: {
+        HIGHSCORE_LIST_LOADED(state, action) {
             return Object.assign({}, state, {
-                highScoreList: action.highScoreList
+                highScoreList: action.payload.highScoreList
             });
-        }
-        case NAME_CHANGED: {
+        },
+
+        NAME_CHANGED(state, action) {
             return Object.assign({}, state, {
-                userName: action.name
+                userName: action.payload.name
             });
-        }
-        case HIGHSCORE_LIST_SAVED: {
+        },
+
+        HIGHSCORE_LIST_SAVED(state, action) {
             return Object.assign({}, state, {
                 highScoreListSaved: true,
-                highScoreList: action.highScoreList
+                highScoreList: action.payload.highScoreList
             });
-        }
-        case NAME_SUBMITTED: {
+        },
+
+        NAME_SUBMITTED(state) {
             return Object.assign({}, state,
                 { nameSubmitted: true }
             );
         }
-        default:
-            return state;
     }
-}
+});
 
-export default tileGame;
+
+export const { INIT_GAME, MOVE_TILE, HIGHSCORE_LIST_LOADED, NAME_CHANGED, HIGHSCORE_LIST_SAVED, NAME_SUBMITTED } = gameSlice.actions
+export default gameSlice.reducer
