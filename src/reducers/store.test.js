@@ -1,29 +1,33 @@
-import { createStore } from 'redux';
 import tileGame from './tile-game-reducer';
-import { initGame, moveTile } from './actions';
+import { INIT_GAME, MOVE_TILE } from './tile-game-reducer';
 import { GameId_3x3 } from '../constants';
+import { configureStore } from '@reduxjs/toolkit'
 
 //
 // Use an unshuffled tile set for testing by sending doShuffling=false to initGame
 //
 
+const size = 3;
+const N = size * size;
+
+function createStoreWithDefaultTestGame() {
+    const store = configureStore({ reducer: { tileGame } });
+    store.dispatch(INIT_GAME({ gameId: GameId_3x3, imageNumber: 1, doShuffling: false }));
+    return store;
+}
+
 test('InitGame should create correct state', () => {
-    const store = createStore(tileGame)
-    const size = 3;
-    store.dispatch(initGame(GameId_3x3, 1, false));
+    const store = createStoreWithDefaultTestGame();
     const state = store.getState();
-    expect(state.tiles.length).toBe(size * size);
-    expect(state.imageNumber).toBe(1);
-    expect(state.gameComplete).toBeFalsy();
+    expect(state.tileGame.tiles.length).toBe(size * size);
+    expect(state.tileGame.imageNumber).toBe(1);
+    expect(state.tileGame.gameComplete).toBeFalsy();
 });
 
 test('There should be one blank tile', () => {
-    const size = 3;
-    const N = size * size;
-    const store = createStore(tileGame);
-    store.dispatch(initGame(GameId_3x3, 1, false));
+    const store = createStoreWithDefaultTestGame();
 
-    const tiles = store.getState().tiles;
+    const tiles = store.getState().tileGame.tiles;
     let numBlanks = 0;
     for (let i = 0; i < N; i++) {
         if (tiles[i] === 0) {
@@ -34,25 +38,21 @@ test('There should be one blank tile', () => {
 });
 
 test('Selecting tile with id outside bounds should not affect state', () => {
-    const size = 3;
-    const N = size * size;
-    const store = createStore(tileGame);
-    store.dispatch(initGame(GameId_3x3, 1, false));
+    const store = createStoreWithDefaultTestGame();
 
-    const startState = store.getState();
+    const startState = store.getState().tileGame;
 
-    store.dispatch(moveTile(-1));
-    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+    store.dispatch(MOVE_TILE(-1));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState().tileGame)).toBeTruthy();
 
-    store.dispatch(moveTile(N));
-    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+    store.dispatch(MOVE_TILE(N));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState().tileGame)).toBeTruthy();
 });
 
 test('Move tile right and left', () => {
-    const store = createStore(tileGame);
-    store.dispatch(initGame(GameId_3x3, 1, false));
+    const store = createStoreWithDefaultTestGame();
 
-    let tiles = store.getState().tiles;
+    let tiles = store.getState().tileGame.tiles;
 
     // The last tile should be the blank tile
     expect(tiles[8]).toBe(0);
@@ -60,25 +60,25 @@ test('Move tile right and left', () => {
     expect(tiles[7]).toBe(8);
 
     // Move the second but last tile to the right
-    store.dispatch(moveTile(8));
-    tiles = store.getState().tiles;
+    store.dispatch(MOVE_TILE({ id: 8 }));
+    tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(8);
     expect(tiles[7]).toBe(0);
 
     // Move the tile back to the left
-    store.dispatch(moveTile(8));
-    tiles = store.getState().tiles;
+    store.dispatch(MOVE_TILE({ id: 8 }));
+    tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(0);
     expect(tiles[7]).toBe(8);
 });
 
-test('Move tile down and up', () => {
-    const store = createStore(tileGame);
-    store.dispatch(initGame(GameId_3x3, 1, false));
 
-    let tiles = store.getState().tiles;
+test('Move tile down and up', () => {
+    const store = createStoreWithDefaultTestGame();
+
+    let tiles = store.getState().tileGame.tiles;
 
     // The last tile should be the blank tile
     expect(tiles[8]).toBe(0);
@@ -86,15 +86,15 @@ test('Move tile down and up', () => {
     expect(tiles[5]).toBe(6);
 
     // Move the tile down
-    store.dispatch(moveTile(6));
-    tiles = store.getState().tiles;
+    store.dispatch(MOVE_TILE({ id: 6 }));
+    tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(6);
     expect(tiles[5]).toBe(0);
 
     // Move the tile up again
-    store.dispatch(moveTile(6));
-    tiles = store.getState().tiles;
+    store.dispatch(MOVE_TILE({ id: 6 }));
+    tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(0);
     expect(tiles[5]).toBe(6);

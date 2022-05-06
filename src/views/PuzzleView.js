@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { PuzzleWidth } from '../constants';
 import TileView from './TileView'
-import { moveTile } from '../reducers/actions';
 import PropTypes from 'prop-types';
+import { MOVE_TILE } from '../reducers/tile-game-reducer';
 
 const Puzzle = (props) => {
     const tileWidth = PuzzleWidth / props.size;
@@ -42,16 +42,16 @@ Puzzle.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        imageNumber: state.imageNumber,
-        tiles: state.tiles,
-        size: state.size,
+        imageNumber: state.tileGame.imageNumber,
+        tiles: state.tileGame.tiles,
+        size: state.tileGame.size,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onTileClicked: id => {
-            dispatch(moveTile(id));
+            dispatch(MOVE_TILE({ id }));
         }
     }
 }

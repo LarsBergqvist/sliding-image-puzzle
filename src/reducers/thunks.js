@@ -1,20 +1,13 @@
-import {
-    HIGHSCORE_LIST_LOADED,
-    HIGHSCORE_LIST_SAVED,
-    NAME_SUBMITTED
-} from './actions';
+import { HIGHSCORE_LIST_LOADED, HIGHSCORE_LIST_SAVED, NAME_SUBMITTED } from './tile-game-reducer';
 
 export async function fetchHighScoreList(dispatch, getState) {
     if (process.env.REACT_APP_APIURL.length === 0) {
         return;
     }
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}`;
+    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     try {
         let result = await get(url);
-        dispatch({
-            type: HIGHSCORE_LIST_LOADED,
-            highScoreList: result
-        });
+        dispatch(HIGHSCORE_LIST_LOADED({ highScoreList: result }));
     } catch (e) {
         console.error('Network request failed');
     }
@@ -25,17 +18,15 @@ export async function updateHighScoreList(dispatch, getState) {
         return;
     }
 
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}/game-results`;
+    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}/game-results`;
 
-    var state = getState();
+    var state = getState().tileGame;
 
     if (!state.userName || state.userName.length === 0 || state.nameSubmitted) {
         return;
     }
 
-    dispatch({
-        type: NAME_SUBMITTED
-    });
+    dispatch(NAME_SUBMITTED());
 
     let body = {
         userName: state.userName,
@@ -50,12 +41,10 @@ export async function updateHighScoreList(dispatch, getState) {
         return;
     }
 
-    let getUrl = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().highScoreListId}`;
+    let getUrl = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     let result = await get(getUrl);
 
-    dispatch({
-        type: HIGHSCORE_LIST_SAVED, highScoreList: result
-    });
+    dispatch(HIGHSCORE_LIST_SAVED({ highScoreList: result }));
 }
 
 async function get(url) {

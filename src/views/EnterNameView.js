@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
 import { connect } from 'react-redux'
-import { nameChanged } from '../reducers/actions';
 import { updateHighScoreList } from '../reducers/thunks';
 import PropTypes from 'prop-types';
+import { NAME_CHANGED } from '../reducers/tile-game-reducer';
 
 const EnterName = props => {
 
@@ -44,9 +44,9 @@ EnterName.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        highScorePosition: state.highScorePosition,
-        highScoreList: state.highScoreList,
-        nameSubmitted: state.nameSubmitted
+        highScorePosition: state.tileGame.highScorePosition,
+        highScoreList: state.tileGame.highScoreList,
+        nameSubmitted: state.tileGame.nameSubmitted
     };
 };
 
@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(updateHighScoreList);
         },
         onNameChanged: (name) => {
-            dispatch(nameChanged(name));
+            dispatch(NAME_CHANGED({ name }));
         }
     }
 }

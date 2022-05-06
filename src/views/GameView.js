@@ -1,7 +1,6 @@
 import React from 'react';
 import './Game.css';
 import { connect } from 'react-redux'
-import { initGame } from '../reducers/actions';
 import GameStatusView from './GameStatusView';
 import { NumImages } from '../constants';
 import { fetchHighScoreList } from '../reducers/thunks';
@@ -11,6 +10,7 @@ import PropTypes from 'prop-types';
 import LeaderBoardView from './LeaderBoardView';
 import GameHeaderView from './GameHeaderView';
 import RestartButtonsView from './RestartButtonsView';
+import { INIT_GAME } from '../reducers/tile-game-reducer';
 
 const Game = (props) => {
     return (
@@ -34,15 +34,15 @@ Game.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        gameName: state.gameName,
-        highScoreList: state.highScoreList
+        gameName: state.tileGame.gameName,
+        highScoreList: state.tileGame.highScoreList
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onInitGame: (gameId) => {
-            dispatch(initGame(gameId, Math.floor(Math.random() * NumImages) + 1, true));
+            dispatch(INIT_GAME({ gameId, imageNumber: Math.floor(Math.random() * NumImages) + 1, doShuffling: true }));
             dispatch(fetchHighScoreList);
         }
     }

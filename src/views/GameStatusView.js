@@ -46,12 +46,12 @@ GameStatus.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        moves: state.moves,
-        gameComplete: state.gameComplete,
-        highScorePosition: state.highScorePosition,
-        highScoreListSaved: state.highScoreListSaved,
-        highScoreList: state.highScoreList,
-        userId: state.userId
+        moves: state.tileGame.moves,
+        gameComplete: state.tileGame.gameComplete,
+        highScorePosition: state.tileGame.highScorePosition,
+        highScoreListSaved: state.tileGame.highScoreListSaved,
+        highScoreList: state.tileGame.highScoreList,
+        userId: state.tileGame.userId
     };
 };
 
