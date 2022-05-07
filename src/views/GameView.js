@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import LeaderBoardView from './LeaderBoardView';
 import GameHeaderView from './GameHeaderView';
 import RestartButtonsView from './RestartButtonsView';
-import { INIT_GAME } from '../reducers/tile-game-reducer';
+import { initGame } from '../reducers/reducers';
 
 const Game = (props) => {
     return (
@@ -42,7 +42,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onInitGame: (gameId) => {
-            dispatch(INIT_GAME({ gameId, imageNumber: Math.floor(Math.random() * NumImages) + 1, doShuffling: true }));
+            dispatch(initGame({ gameId, imageNumber: Math.floor(Math.random() * NumImages) + 1, doShuffling: true }));
             dispatch(fetchHighScoreList);
         }
     }

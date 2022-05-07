@@ -9,6 +9,9 @@ import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit'
 
+// The state is an object with game state and an array of tiles
+// A tile is a number 1-N and the blank tile is represented by 0
+
 const initialState = {
     moves: 0,
     gameComplete: false,
@@ -27,12 +30,10 @@ const initialState = {
 
 const gameSlice = createSlice({
     name: 'tileGame',
-    // The state is an object with game state and an array of tiles
-    // A tile is a number 1-N and the blank tile is represented by 0
     initialState: initialState,
 
     reducers: {
-        INIT_GAME(_, action) {
+        initGame(_, action) {
             const payload = action.payload;
             return Object.assign({}, initialState, {
                 gameId: payload.gameId,
@@ -45,7 +46,7 @@ const gameSlice = createSlice({
             });
         },
 
-        MOVE_TILE(state, action) {
+        moveTile(state, action) {
             const id = action.payload.id;
             if (id === 0) {
                 // selected blank tile
@@ -102,26 +103,26 @@ const gameSlice = createSlice({
             });
         },
 
-        HIGHSCORE_LIST_LOADED(state, action) {
+        highScoreListLoaded(state, action) {
             return Object.assign({}, state, {
                 highScoreList: action.payload.highScoreList
             });
         },
 
-        NAME_CHANGED(state, action) {
+        nameChanged(state, action) {
             return Object.assign({}, state, {
                 userName: action.payload.name
             });
         },
 
-        HIGHSCORE_LIST_SAVED(state, action) {
+        highScoreListSaved(state, action) {
             return Object.assign({}, state, {
                 highScoreListSaved: true,
                 highScoreList: action.payload.highScoreList
             });
         },
 
-        NAME_SUBMITTED(state) {
+        nameSubmitted(state) {
             return Object.assign({}, state,
                 { nameSubmitted: true }
             );
@@ -130,5 +131,5 @@ const gameSlice = createSlice({
 });
 
 
-export const { INIT_GAME, MOVE_TILE, HIGHSCORE_LIST_LOADED, NAME_CHANGED, HIGHSCORE_LIST_SAVED, NAME_SUBMITTED } = gameSlice.actions
+export const { initGame: initGame, moveTile: moveTile, highScoreListLoaded, nameChanged, highScoreListSaved, nameSubmitted } = gameSlice.actions
 export default gameSlice.reducer

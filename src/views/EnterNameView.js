@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import { updateHighScoreList } from '../reducers/thunks';
 import PropTypes from 'prop-types';
-import { NAME_CHANGED } from '../reducers/tile-game-reducer';
+import { nameChanged } from '../reducers/reducers';
 
 const EnterName = props => {
 
@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(updateHighScoreList);
         },
         onNameChanged: (name) => {
-            dispatch(NAME_CHANGED({ name }));
+            dispatch(nameChanged({ name }));
         }
     }
 }

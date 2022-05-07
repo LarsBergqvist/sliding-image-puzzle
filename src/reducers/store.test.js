@@ -1,5 +1,5 @@
-import tileGame from './tile-game-reducer';
-import { INIT_GAME, MOVE_TILE } from './tile-game-reducer';
+import tileGame from './reducers';
+import { initGame, moveTile } from './reducers';
 import { GameId_3x3 } from '../constants';
 import { configureStore } from '@reduxjs/toolkit'
 
@@ -12,7 +12,7 @@ const N = size * size;
 
 function createStoreWithDefaultTestGame() {
     const store = configureStore({ reducer: { tileGame } });
-    store.dispatch(INIT_GAME({ gameId: GameId_3x3, imageNumber: 1, doShuffling: false }));
+    store.dispatch(initGame({ gameId: GameId_3x3, imageNumber: 1, doShuffling: false }));
     return store;
 }
 
@@ -42,10 +42,10 @@ test('Selecting tile with id outside bounds should not affect state', () => {
 
     const startState = store.getState().tileGame;
 
-    store.dispatch(MOVE_TILE(-1));
+    store.dispatch(moveTile(-1));
     expect(JSON.stringify(startState) === JSON.stringify(store.getState().tileGame)).toBeTruthy();
 
-    store.dispatch(MOVE_TILE(N));
+    store.dispatch(moveTile(N));
     expect(JSON.stringify(startState) === JSON.stringify(store.getState().tileGame)).toBeTruthy();
 });
 
@@ -60,14 +60,14 @@ test('Move tile right and left', () => {
     expect(tiles[7]).toBe(8);
 
     // Move the second but last tile to the right
-    store.dispatch(MOVE_TILE({ id: 8 }));
+    store.dispatch(moveTile({ id: 8 }));
     tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(8);
     expect(tiles[7]).toBe(0);
 
     // Move the tile back to the left
-    store.dispatch(MOVE_TILE({ id: 8 }));
+    store.dispatch(moveTile({ id: 8 }));
     tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(0);
@@ -86,14 +86,14 @@ test('Move tile down and up', () => {
     expect(tiles[5]).toBe(6);
 
     // Move the tile down
-    store.dispatch(MOVE_TILE({ id: 6 }));
+    store.dispatch(moveTile({ id: 6 }));
     tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(6);
     expect(tiles[5]).toBe(0);
 
     // Move the tile up again
-    store.dispatch(MOVE_TILE({ id: 6 }));
+    store.dispatch(moveTile({ id: 6 }));
     tiles = store.getState().tileGame.tiles;
     // The tile should have switched position with the blank tile
     expect(tiles[8]).toBe(0);

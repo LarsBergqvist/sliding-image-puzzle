@@ -1,4 +1,5 @@
-import { HIGHSCORE_LIST_LOADED, HIGHSCORE_LIST_SAVED, NAME_SUBMITTED } from './tile-game-reducer';
+/* eslint-disable no-undef */
+import { highScoreListLoaded, highScoreListSaved, nameSubmitted } from './reducers';
 
 export async function fetchHighScoreList(dispatch, getState) {
     if (process.env.REACT_APP_APIURL.length === 0) {
@@ -7,7 +8,7 @@ export async function fetchHighScoreList(dispatch, getState) {
     let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     try {
         let result = await get(url);
-        dispatch(HIGHSCORE_LIST_LOADED({ highScoreList: result }));
+        dispatch(highScoreListLoaded({ highScoreList: result }));
     } catch (e) {
         console.error('Network request failed');
     }
@@ -26,7 +27,7 @@ export async function updateHighScoreList(dispatch, getState) {
         return;
     }
 
-    dispatch(NAME_SUBMITTED());
+    dispatch(nameSubmitted());
 
     let body = {
         userName: state.userName,
@@ -44,7 +45,7 @@ export async function updateHighScoreList(dispatch, getState) {
     let getUrl = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     let result = await get(getUrl);
 
-    dispatch(HIGHSCORE_LIST_SAVED({ highScoreList: result }));
+    dispatch(highScoreListSaved({ highScoreList: result }));
 }
 
 async function get(url) {
