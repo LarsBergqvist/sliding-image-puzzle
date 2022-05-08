@@ -50,7 +50,14 @@ export function allTilesAreAligned(tiles) {
     return true;
 }
 
-export function hasEmptyTileOnSides(size, id, tiles) {
+export function tileIsValidForMovement(id, size, tiles) {
+    if (id < 1 || id > (size * size - 1)) {
+        return false;
+    }
+    return tileIsMovable(size, id, tiles);
+}
+
+export function tileIsMovable(size, id, tiles) {
     const idx = tiles.findIndex(t => t === id);
     const row = Math.floor(idx / size);
     if (row < (size - 1)) {

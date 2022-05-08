@@ -2,12 +2,13 @@ import {
     generateTileSet,
     swapTilesInSet,
     allTilesAreAligned,
-    hasEmptyTileOnSides,
-    getIndexInHighScoreList
+    getIndexInHighScoreList,
+    tileIsValidForMovement
 } from './tileset-functions';
 import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import produce from 'immer';
 
 // The state is an object with game state and an array of tiles
 // A tile is a number 1-N and the blank tile is represented by 0
@@ -25,7 +26,8 @@ const initialState = {
     userName: undefined,
     userId: undefined,
     highScoreListSaved: false,
-    nameSubmitted: false
+    nameSubmitted: false,
+    highScoreListId: -1
 };
 
 const gameSlice = createSlice({
@@ -35,31 +37,19 @@ const gameSlice = createSlice({
     reducers: {
         initGame(_, action) {
             const payload = action.payload;
-            return Object.assign({}, initialState, {
-                gameId: payload.gameId,
-                size: gameConfigs[payload.gameId].size,
-                gameName: gameConfigs[payload.gameId].name,
-                imageNumber: payload.imageNumber,
-                highScoreListId: gameConfigs[payload.gameId].highscorelistid,
-                tiles: generateTileSet(gameConfigs[payload.gameId].size, payload.doShuffling),
-                nameSubmitted: false
+            return produce(initialState, draft => {
+                draft.gameId = payload.gameId;
+                draft.size = gameConfigs[payload.gameId].size;
+                draft.gameName = gameConfigs[payload.gameId].name;
+                draft.imageNumber = payload.imageNumber;
+                draft.highScoreListId = gameConfigs[payload.gameId].highscorelistid;
+                draft.tiles = generateTileSet(gameConfigs[payload.gameId].size, payload.doShuffling);
             });
         },
 
         moveTile(state, action) {
             const id = action.payload.id;
-            if (id === 0) {
-                // selected blank tile
-                return state;
-            }
-            if (state.gameComplete) {
-                return state;
-            }
-            if (id < 0 || id > (state.size * state.size - 1)) {
-                return state;
-            }
-
-            if (!hasEmptyTileOnSides(state.size, id, state.tiles)) {
+            if (state.gameComplete || !tileIsValidForMovement(id, state.size, state.tiles)) {
                 return state;
             }
 
@@ -74,58 +64,59 @@ const gameSlice = createSlice({
             //
             let gameComplete = allTilesAreAligned(setWithSwappedTiles);
             if (gameComplete && state.highScoreList) {
+                // Highscore list is available
                 const newUserId = uuidv4();
                 const time = Date.now();
                 const idxInHighScoreList = getIndexInHighScoreList(newUserId, time, state.moves + 1, state.highScoreList);
                 if (idxInHighScoreList > -1) {
                     // User made it into the leaderboard
-                    return Object.assign({}, state, {
-                        highScorePosition: idxInHighScoreList + 1,
-                        gameComplete: gameComplete,
-                        moves: state.moves + 1,
-                        userId: newUserId,
-                        tiles: setWithSwappedTiles
+                    return produce(state, draft => {
+                        draft.highScorePosition = idxInHighScoreList + 1;
+                        draft.gameComplete = gameComplete;
+                        draft.moves = state.moves + 1;
+                        draft.userId = newUserId;
+                        draft.tiles = setWithSwappedTiles;
                     });
                 } else {
                     // User dit not make it into the leaderboard
-                    return Object.assign({}, state, {
-                        highScorePosition: idxInHighScoreList + 1,
-                        gameComplete: gameComplete,
-                        moves: state.moves + 1,
-                        tiles: setWithSwappedTiles
+                    return produce(state, draft => {
+                        draft.highScorePosition = idxInHighScoreList + 1;
+                        draft.gameComplete = gameComplete;
+                        draft.moves = state.moves + 1;
+                        draft.tiles = setWithSwappedTiles;
                     });
                 }
             }
-            return Object.assign({}, state, {
-                gameComplete,
-                moves: state.moves + 1,
-                tiles: setWithSwappedTiles
+            return produce(state, draft => {
+                draft.gameComplete = gameComplete;
+                draft.moves = state.moves + 1;
+                draft.tiles = setWithSwappedTiles;
             });
         },
 
         highScoreListLoaded(state, action) {
-            return Object.assign({}, state, {
-                highScoreList: action.payload.highScoreList
+            return produce(state, draft => {
+                draft.highScoreList = action.payload.highScoreList;
             });
         },
 
         nameChanged(state, action) {
-            return Object.assign({}, state, {
-                userName: action.payload.name
+            return produce(state, draft => {
+                draft.userName = action.payload.name;
             });
         },
 
         highScoreListSaved(state, action) {
-            return Object.assign({}, state, {
-                highScoreListSaved: true,
-                highScoreList: action.payload.highScoreList
+            return produce(state, draft => {
+                draft.highScoreListSaved = true;
+                draft.highScoreList = action.payload.highScoreList;
             });
         },
 
         nameSubmitted(state) {
-            return Object.assign({}, state,
-                { nameSubmitted: true }
-            );
+            return produce(state, draft => {
+                draft.nameSubmitted = true;
+            });
         }
     }
 });
