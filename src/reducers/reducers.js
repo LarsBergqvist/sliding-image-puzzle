@@ -8,7 +8,6 @@ import {
 import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
-import produce from 'immer';
 
 // The state is an object with game state and an array of tiles
 // A tile is a number 1-N and the blank tile is represented by 0
@@ -30,93 +29,71 @@ const initialState = {
     highScoreListId: -1
 };
 
+const emptyTileId = 0;
+
 const gameSlice = createSlice({
     name: 'tileGame',
     initialState: initialState,
 
+    //
+    // Reducers use mutating syntax which is ok within createSlice
+    // as immer is used internally
+    //
     reducers: {
-        initGame(_, action) {
+        initGame(state, action) {
             const payload = action.payload;
-            return produce(initialState, draft => {
-                draft.gameId = payload.gameId;
-                draft.size = gameConfigs[payload.gameId].size;
-                draft.gameName = gameConfigs[payload.gameId].name;
-                draft.imageNumber = payload.imageNumber;
-                draft.highScoreListId = gameConfigs[payload.gameId].highscorelistid;
-                draft.tiles = generateTileSet(gameConfigs[payload.gameId].size, payload.doShuffling);
-            });
+            Object.assign(state, initialState);
+            state.imageNumber = payload.imageNumber;
+            state.tiles = generateTileSet(gameConfigs[payload.gameId].size, payload.doShuffling);
+            state.size = gameConfigs[payload.gameId].size;
+            state.gameId = payload.gameId;
+            state.gameName = gameConfigs[payload.gameId].name;
+            state.highScoreListId = gameConfigs[payload.gameId].highscorelistid;
         },
 
         moveTile(state, action) {
-            const id = action.payload.id;
-            if (state.gameComplete || !tileIsValidForMovement(id, state.size, state.tiles)) {
+            if (state.gameComplete || !tileIsValidForMovement(action.payload.id, state.size, state.tiles)) {
                 return state;
             }
 
             //
-            // Move the tile
+            // Move the tile, i.e. change placement with the empty tile
             //
-            const newTiles = state.tiles.map(t => t);
-            const setWithSwappedTiles = swapTilesInSet(newTiles, 0, id);
+            state.moves = state.moves + 1;
+            state.tiles = swapTilesInSet(state.tiles, emptyTileId, action.payload.id);
+            state.gameComplete = allTilesAreAligned(state.tiles);
 
             //
-            // Check result
+            // Check result against highscore list
             //
-            let gameComplete = allTilesAreAligned(setWithSwappedTiles);
-            if (gameComplete && state.highScoreList) {
+            if (state.gameComplete && state.highScoreList) {
                 // Highscore list is available
                 const newUserId = uuidv4();
                 const time = Date.now();
-                const idxInHighScoreList = getIndexInHighScoreList(newUserId, time, state.moves + 1, state.highScoreList);
+                const idxInHighScoreList = getIndexInHighScoreList(newUserId, time, state.moves, state.highScoreList);
                 if (idxInHighScoreList > -1) {
                     // User made it into the leaderboard
-                    return produce(state, draft => {
-                        draft.highScorePosition = idxInHighScoreList + 1;
-                        draft.gameComplete = gameComplete;
-                        draft.moves = state.moves + 1;
-                        draft.userId = newUserId;
-                        draft.tiles = setWithSwappedTiles;
-                    });
-                } else {
-                    // User dit not make it into the leaderboard
-                    return produce(state, draft => {
-                        draft.highScorePosition = idxInHighScoreList + 1;
-                        draft.gameComplete = gameComplete;
-                        draft.moves = state.moves + 1;
-                        draft.tiles = setWithSwappedTiles;
-                    });
+                    state.highScorePosition = idxInHighScoreList + 1;
+                    state.userId = newUserId;
                 }
             }
-            return produce(state, draft => {
-                draft.gameComplete = gameComplete;
-                draft.moves = state.moves + 1;
-                draft.tiles = setWithSwappedTiles;
-            });
         },
 
         highScoreListLoaded(state, action) {
-            return produce(state, draft => {
-                draft.highScoreList = action.payload.highScoreList;
-            });
+            state.highScoreList = action.payload.highScoreList;
         },
 
         nameChanged(state, action) {
-            return produce(state, draft => {
-                draft.userName = action.payload.name;
-            });
+            state.userName = action.payload.name;
         },
 
         highScoreListSaved(state, action) {
-            return produce(state, draft => {
-                draft.highScoreListSaved = true;
-                draft.highScoreList = action.payload.highScoreList;
-            });
+            state.highScoreListSaved = true;
+            state.highScoreList = action.payload.highScoreList;
         },
 
         nameSubmitted(state) {
-            return produce(state, draft => {
-                draft.nameSubmitted = true;
-            });
+            state.nameSubmitted = true;
         }
     }
 });
