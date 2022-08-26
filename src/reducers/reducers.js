@@ -4,7 +4,7 @@ import {
     allTilesAreAligned,
     getIndexInHighScoreList,
     tileIsValidForMovement
-} from './tileset-functions';
+} from './tileset-functions.ts';
 import { gameConfigs } from '../game-configs';
 import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';

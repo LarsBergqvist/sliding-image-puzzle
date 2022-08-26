@@ -2,10 +2,10 @@
 // from https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/
 //
 
-export function isSolvable(size, idArray) {
+export function isSolvable(size: number, idArray: number[]): boolean {
     //
-    // Checks if an array of length size * size
-    // representing an two-dimensional matrix with width and height size
+    // Checks if an array of length size * size,
+    // representing an two-dimensional matrix with width and height size,
     // is solvable as a sliding puzzle.
     // An item value of 0 represents the blank tile
     // The other items in the array are filled with distinct values
@@ -22,14 +22,12 @@ export function isSolvable(size, idArray) {
         //   - inversion count is odd and the blank tile appears on an even row counting from bottom
         //   - inversion count is even and the blank tile appears on an odd row counting from bottom
         let rowFromBottom = findBlankRowPositionFromBottom(size, idArray);
-        if (rowFromBottom & 1)
-            return !(invCount & 1);
-        else
-            return invCount & 1;
+        if (rowFromBottom & 1) return !(invCount & 1);
+        else return !!(invCount & 1);
     }
 }
 
-function getInvCount(size, idArray) {
+function getInvCount(size: number, idArray: number[]) {
     //
     // Count number of inversions in the array,
     // i.e. how many pairs (array[i], array[j]) exist
@@ -38,7 +36,7 @@ function getInvCount(size, idArray) {
     let invCount = 0;
     for (let i = 0; i < size * size - 1; i++) {
         for (let j = i + 1; j < size * size; j++) {
-            if (idArray[j] && idArray[i] && (idArray[i] > idArray[j])) {
+            if (idArray[j] && idArray[i] && idArray[i] > idArray[j]) {
                 invCount++;
             }
         }
@@ -46,8 +44,8 @@ function getInvCount(size, idArray) {
     return invCount;
 }
 
-function findBlankRowPositionFromBottom(size, idArray) {
-    const blankTileIdx = idArray.findIndex(t => t === 0);
+function findBlankRowPositionFromBottom(size: number, idArray: number[]) {
+    const blankTileIdx = idArray.findIndex((t) => t === 0);
     const row = Math.floor(blankTileIdx / size);
     let rowFromBottom = size - row;
     return rowFromBottom;

@@ -1,7 +1,5 @@
 import shuffle from 'shuffle-array';
-import {
-    isSolvable
-} from './solvableChecker';
+import { isSolvable } from './solvableChecker';
 
 //
 // The TileSet is an array of length size*size representing
@@ -13,8 +11,8 @@ import {
 // right corner
 //
 
-export function generateTileSet(size, doShuffling) {
-    let newTilesArray = [];
+export function generateTileSet(size: number, doShuffling: boolean): number[] {
+    let newTilesArray: number[] = [];
     for (let i = 0; i < size * size; i++) {
         newTilesArray[i] = i + 1;
     }
@@ -31,36 +29,36 @@ export function generateTileSet(size, doShuffling) {
     return newTilesArray;
 }
 
-export function swapTilesInSet(tiles, sourceId, destId) {
-    let sourceIdx = tiles.findIndex(t => t === sourceId);
+export function swapTilesInSet(tiles: number[], sourceId: number, destId: number): number[] {
+    let sourceIdx = tiles.findIndex((t) => t === sourceId);
     let source = tiles[sourceIdx];
-    let destIdx = tiles.findIndex(t => t === destId);
+    let destIdx = tiles.findIndex((t) => t === destId);
     let dest = tiles[destIdx];
     tiles[destIdx] = source;
     tiles[sourceIdx] = dest;
     return tiles;
 }
 
-export function allTilesAreAligned(tiles) {
+export function allTilesAreAligned(tiles: number[]): boolean {
     for (let i = 0; i < tiles.length; i++) {
-        if (tiles[i] !== 0 && (tiles[i] !== (i + 1))) {
+        if (tiles[i] !== 0 && tiles[i] !== i + 1) {
             return false;
         }
     }
     return true;
 }
 
-export function tileIsValidForMovement(id, size, tiles) {
-    if (id < 1 || id > (size * size - 1)) {
+export function tileIsValidForMovement(id: number, size: number, tiles: number[]): boolean {
+    if (id < 1 || id > size * size - 1) {
         return false;
     }
     return tileIsMovable(size, id, tiles);
 }
 
-export function tileIsMovable(size, id, tiles) {
-    const idx = tiles.findIndex(t => t === id);
+export function tileIsMovable(size: number, id: number, tiles: number[]): boolean {
+    const idx = tiles.findIndex((t) => t === id);
     const row = Math.floor(idx / size);
-    if (row < (size - 1)) {
+    if (row < size - 1) {
         // Check below
         if (tiles[idx + size] === 0) {
             return true;
@@ -74,7 +72,7 @@ export function tileIsMovable(size, id, tiles) {
     }
     const col = idx % size;
 
-    if (col < (size - 1)) {
+    if (col < size - 1) {
         // check to the right
         if (tiles[idx + 1] === 0) {
             return true;
@@ -90,23 +88,23 @@ export function tileIsMovable(size, id, tiles) {
     return false;
 }
 
-export function getIndexInHighScoreList(newUserId, userTime, score, highScoreList) {
-    const resultsCopy = highScoreList.results.map(r => {
+export function getIndexInHighScoreList(newUserId: string, userTime: number, score: number, highScoreList: any): number {
+    const resultsCopy = highScoreList.results.map((r) => {
         return {
             id: r.id,
             score: r.score,
             time: isNaN(Date.parse(r.utcDateTime)) ? 0 : Date.parse(r.utcDateTime)
-        }
+        };
     });
     resultsCopy.push({
         id: newUserId,
         score,
         time: userTime
     });
-    resultsCopy.sort((a, b) => (a.score - b.score) || (b.time - a.time));
+    resultsCopy.sort((a, b) => a.score - b.score || b.time - a.time);
 
-    let idxInHighScoreList = resultsCopy.findIndex(r => r.id === newUserId);
-    if (idxInHighScoreList > -1 && (idxInHighScoreList + 1 <= highScoreList.maxSize)) {
+    let idxInHighScoreList = resultsCopy.findIndex((r) => r.id === newUserId);
+    if (idxInHighScoreList > -1 && idxInHighScoreList + 1 <= highScoreList.maxSize) {
         return idxInHighScoreList;
     } else {
         return -1;
