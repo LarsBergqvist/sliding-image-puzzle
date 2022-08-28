@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux'
 import { PuzzleWidth } from '../constants';
 import TileView from './TileView'

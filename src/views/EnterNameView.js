@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux'
 import { updateHighScoreList } from '../reducers/thunks';
 import PropTypes from 'prop-types';

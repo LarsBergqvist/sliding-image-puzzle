@@ -1,4 +1,3 @@
-import React from 'react';
 import './Game.css';
 import PropTypes from 'prop-types';
 
@@ -17,7 +16,7 @@ TileView.propTypes = {
     onClick: PropTypes.func
 };
 
-const getStyleForTile = (id, size, tileWidth, isCorrectPos, imageNumber) => {
+const getStyleForTile = (id: number, size: number, tileWidth: number, isCorrectPos: boolean, imageNumber: number) => {
     //
     // Position a section of a background image in the tile
     // based on the id of the tile
@@ -33,7 +32,7 @@ const getStyleForTile = (id, size, tileWidth, isCorrectPos, imageNumber) => {
     const left = idx < size ? -idx * tileWidth : -(idx % size) * tileWidth;
 
     const imPath = `${window.location.href}/images/img${imageNumber}.jpg`;
-    let style = {
+    let style: any = {
         backgroundPosition: `left ${left}px top ${top}px`,
         backgroundImage: `url('${imPath}')`,
     }

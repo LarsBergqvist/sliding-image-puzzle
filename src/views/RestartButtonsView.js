@@ -1,4 +1,3 @@
-import React from 'react';
 import './Game.css';
 import { GameId_3x3, GameId_4x4, GameId_5x5 } from '../constants';
 import PropTypes from 'prop-types';

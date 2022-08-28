@@ -2063,6 +2063,11 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
+"@types/shuffle-array@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/shuffle-array/-/shuffle-array-1.0.2.tgz#6c136030ada522a52f513c6aa36111286b6ddaac"
+  integrity sha512-X8AFrn+D86HFJKer0n2qbG67jHMB4f/QxG28hvNHiouAn84QHVxhuCgGict5djhKP9GZPH2TjCxzf54khqawzQ==
+
 "@types/sockjs@^0.3.33":
   version "0.3.33"
   resolved "https://registry.yarnpkg.com/@types/sockjs/-/sockjs-0.3.33.tgz#570d3a0b99ac995360e3136fd6045113b1bd236f"
@@ -2091,6 +2096,11 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
+
+"@types/uuid@^8.3.4":
+  version "8.3.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
 "@types/ws@^8.5.1":
   version "8.5.3"

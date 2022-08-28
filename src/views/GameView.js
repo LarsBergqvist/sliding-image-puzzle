@@ -1,4 +1,3 @@
-import React from 'react';
 import './Game.css';
 import { connect } from 'react-redux'
 import GameStatusView from './GameStatusView';
