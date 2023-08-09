@@ -19,7 +19,7 @@ const Game = (props) => {
             <PuzzleView />
             <RestartButtonsView onInitGame={props.onInitGame} />
             <FullImageView />
-            <LeaderBoardView highScoreList={props.highScoreList} />
+            {!props.gameComplete && <LeaderBoardView highScoreList={props.highScoreList} />}
         </div>
     );
 };
@@ -27,14 +27,16 @@ const Game = (props) => {
 Game.propTypes = {
     gameName: PropTypes.string,
     highScoreList: PropTypes.object,
-    onInitGame: PropTypes.func
+    onInitGame: PropTypes.func,
+    gameComplete: PropTypes.bool
 };
 
 
 const mapStateToProps = state => {
     return {
         gameName: state.tileGame.gameName,
-        highScoreList: state.tileGame.highScoreList
+        highScoreList: state.tileGame.highScoreList,
+        gameComplete: state.tileGame.gameComplete
     }
 }
 
