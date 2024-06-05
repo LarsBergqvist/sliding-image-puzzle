@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { highScoreListLoaded, highScoreListSaved, nameSubmitted } from './reducers';
 
 export async function fetchHighScoreList(dispatch, getState) {
