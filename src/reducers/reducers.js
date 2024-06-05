@@ -99,5 +99,5 @@ const gameSlice = createSlice({
 });
 
 
-export const { initGame: initGame, moveTile: moveTile, highScoreListLoaded, nameChanged, highScoreListSaved, nameSubmitted } = gameSlice.actions
+export const { initGame, moveTile, highScoreListLoaded, nameChanged, highScoreListSaved, nameSubmitted } = gameSlice.actions
 export default gameSlice.reducer

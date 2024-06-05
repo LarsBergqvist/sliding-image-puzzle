@@ -1,11 +1,10 @@
-/* eslint-disable no-undef */
 import { highScoreListLoaded, highScoreListSaved, nameSubmitted } from './reducers';
 
 export async function fetchHighScoreList(dispatch, getState) {
-    if (process.env.REACT_APP_APIURL.length === 0) {
+    if (import.meta.env.VITE_APIURL.length === 0) {
         return;
     }
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
+    let url = `${import.meta.env.VITE_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     try {
         let result = await get(url);
         dispatch(highScoreListLoaded({ highScoreList: result }));
@@ -15,11 +14,11 @@ export async function fetchHighScoreList(dispatch, getState) {
 }
 
 export async function updateHighScoreList(dispatch, getState) {
-    if (process.env.REACT_APP_APIURL.length === 0) {
+    if (import.meta.env.VITE_APIURL.length === 0) {
         return;
     }
 
-    let url = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}/game-results`;
+    let url = `${import.meta.env.VITE_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}/game-results`;
 
     var state = getState().tileGame;
 
@@ -42,7 +41,7 @@ export async function updateHighScoreList(dispatch, getState) {
         return;
     }
 
-    let getUrl = `${process.env.REACT_APP_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
+    let getUrl = `${import.meta.env.VITE_APIURL}/highscore-lists/${getState().tileGame.highScoreListId}`;
     let result = await get(getUrl);
 
     dispatch(highScoreListSaved({ highScoreList: result }));
@@ -52,7 +51,7 @@ async function get(url) {
     try {
         let response = await fetch(url, {
             headers: {
-                ApiKey: `${process.env.REACT_APP_APIKEY}`
+                ApiKey: `${import.meta.env.VITE_APIKEY}`
             }
         });
         if (!response.ok) {
@@ -70,7 +69,7 @@ async function post(url, body) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ApiKey: `${process.env.REACT_APP_APIKEY}`
+                ApiKey: `${import.meta.env.VITE_APIKEY}`
             },
             body: JSON.stringify(body),
         });

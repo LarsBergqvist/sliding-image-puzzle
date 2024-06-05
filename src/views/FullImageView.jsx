@@ -13,7 +13,7 @@ const FullImage = (props) => {
 
     return (
         <div className="full-image" style={fullImageStyle}>
-            <img src={`${imPath}`} draggable='false' alt='Full image' />
+            <img src={`${imPath}`} draggable='false' alt='Original' />
         </div>
     );
 }
