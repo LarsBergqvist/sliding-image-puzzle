@@ -1,6 +1,7 @@
 import {
     isSolvable
 } from './solvableChecker';
+import { expect, test } from 'vitest'
 
 test('Odd N and even inversions count should be solvable', () => {
     const array = [1, 8, 2,

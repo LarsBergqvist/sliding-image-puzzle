@@ -1,4 +1,5 @@
 import { generateTileSet, getIndexInHighScoreList, tileIsValidForMovement, allTilesAreAligned, swapTilesInSet } from './tileset-functions';
+import { expect, test } from 'vitest'
 
 test('Generate unshuffled tile set', () => {
     expect(generateTileSet(3, false)).toStrictEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
