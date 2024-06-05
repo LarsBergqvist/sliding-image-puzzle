@@ -52,7 +52,7 @@ async function get(url) {
     try {
         let response = await fetch(url, {
             headers: {
-                ApiKey: `${import.meta.env.VITE_APP_APIKEY}`
+                ApiKey: `${import.meta.env.VITE_APIKEY}`
             }
         });
         if (!response.ok) {
@@ -70,7 +70,7 @@ async function post(url, body) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ApiKey: `${import.meta.env.VITEAPP_APIKEY}`
+                ApiKey: `${import.meta.env.VITE_APIKEY}`
             },
             body: JSON.stringify(body),
         });
