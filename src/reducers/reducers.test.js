@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { GameId_3x3 } from '../constants';
 import tileGame from './reducers';
 import { initGame, moveTile, nameSubmitted } from './reducers';
-
+import { expect, test } from 'vitest'
 
 test('InitGame should not mutate data', () => {
     const initialState = {

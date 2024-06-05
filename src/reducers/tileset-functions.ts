@@ -89,7 +89,7 @@ export function tileIsMovable(size: number, id: number, tiles: number[]): boolea
 }
 
 export function getIndexInHighScoreList(newUserId: string, userTime: number, score: number, highScoreList: any): number {
-    const resultsCopy = highScoreList.results.map((r) => {
+    const resultsCopy = highScoreList.results.map((r:any) => {
         return {
             id: r.id,
             score: r.score,
@@ -101,9 +101,9 @@ export function getIndexInHighScoreList(newUserId: string, userTime: number, sco
         score,
         time: userTime
     });
-    resultsCopy.sort((a, b) => a.score - b.score || b.time - a.time);
+    resultsCopy.sort((a:any, b:any) => a.score - b.score || b.time - a.time);
 
-    let idxInHighScoreList = resultsCopy.findIndex((r) => r.id === newUserId);
+    let idxInHighScoreList = resultsCopy.findIndex((r:any) => r.id === newUserId);
     if (idxInHighScoreList > -1 && idxInHighScoreList + 1 <= highScoreList.maxSize) {
         return idxInHighScoreList;
     } else {

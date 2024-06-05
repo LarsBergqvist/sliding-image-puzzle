@@ -2,6 +2,7 @@ import tileGame from './reducers';
 import { initGame, moveTile } from './reducers';
 import { GameId_3x3 } from '../constants';
 import { configureStore } from '@reduxjs/toolkit'
+import { expect, test } from 'vitest'
 
 //
 // Use an unshuffled tile set for testing by sending doShuffling=false to initGame

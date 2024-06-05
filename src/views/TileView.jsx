@@ -16,7 +16,7 @@ TileView.propTypes = {
     onClick: PropTypes.func
 };
 
-const getStyleForTile = (id: number, size: number, tileWidth: number, isCorrectPos: boolean, imageNumber: number) => {
+const getStyleForTile = (id, size, tileWidth, isCorrectPos, imageNumber) => {
     //
     // Position a section of a background image in the tile
     // based on the id of the tile
@@ -32,7 +32,7 @@ const getStyleForTile = (id: number, size: number, tileWidth: number, isCorrectP
     const left = idx < size ? -idx * tileWidth : -(idx % size) * tileWidth;
 
     const imPath = `${window.location.href}/images/img${imageNumber}.jpg`;
-    let style: any = {
+    let style = {
         backgroundPosition: `left ${left}px top ${top}px`,
         backgroundImage: `url('${imPath}')`,
     }
